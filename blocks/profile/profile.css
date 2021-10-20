@@ -1,0 +1,20 @@
+.profile {
+  margin: 40px 15.6% 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .profile {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
+
+@media (max-width: 400px) {
+  .profile {
+    margin-left: 19px;
+    margin-right: 19px;
+    margin-top: 38px;
+  }
+}
