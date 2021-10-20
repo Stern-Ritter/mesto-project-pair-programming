@@ -83,9 +83,21 @@ popupCloseButton.addEventListener("click", function () {
   closePopup(popupProfile);
 });
 
+// popupProfile.addEventListener("click", function (evt) {
+//   if (!evt.target.classList.contains("edit-profile__container")) {
+//     closePopup(popupProfile);
+//   }
+// });
+
 placeCloseButton.addEventListener("click", function () {
   closePopup(popupPlace);
 });
+
+// popupPlace.addEventListener("click", function (evt) {
+//   if (!evt.target.classList.contains("popup__container")) {
+//     closePopup(popupPlace);
+//   }
+// });
 
 formElement.addEventListener("submit", submitFormProfile);
 
@@ -94,6 +106,20 @@ popupImage
   .addEventListener("click", function () {
     closePopup(popupImage);
   });
+
+popupImage.addEventListener("click", function (evt) {
+  if (!evt.target.classList.contains("popup__image")) {
+    closePopup(popupImage);
+  }
+});
+
+document.addEventListener("keydown", function (evt) {
+  if (evt.key === "Escape") {
+    closePopup(popupProfile);
+    closePopup(popupImage);
+    closePopup(popupPlace);
+  }
+});
 
 placeFormElement.addEventListener("submit", submitFormPlace);
 
