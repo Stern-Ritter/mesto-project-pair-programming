@@ -75,29 +75,28 @@ profileEditBbutton.addEventListener("click", function () {
 
 profileAddBbutton.addEventListener("click", function () {
   openPopup(popupPlace);
-  linkInput.value = "";
-  locationInput.value = "";
+  formPlaceElement.reset();
 });
 
 popupCloseButton.addEventListener("click", function () {
   closePopup(popupProfile);
 });
 
-// popupProfile.addEventListener("click", function (evt) {
-//   if (!evt.target.classList.contains("edit-profile__container")) {
-//     closePopup(popupProfile);
-//   }
-// });
+popupProfile.addEventListener("click", function (evt) {
+  if (evt.target.classList.contains("edit-profile")) {
+    closePopup(popupProfile);
+  }
+});
 
 placeCloseButton.addEventListener("click", function () {
   closePopup(popupPlace);
 });
 
-// popupPlace.addEventListener("click", function (evt) {
-//   if (!evt.target.classList.contains("popup__container")) {
-//     closePopup(popupPlace);
-//   }
-// });
+popupPlace.addEventListener("click", function (evt) {
+  if (evt.target.classList.contains("place")) {
+    closePopup(popupPlace);
+  }
+});
 
 formElement.addEventListener("submit", submitFormProfile);
 
