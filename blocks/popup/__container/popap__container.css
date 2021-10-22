@@ -10,6 +10,7 @@
   color: #000;
   z-index: 4;
   box-sizing: border-box;
+  
 }
 
 @media (max-width: 560px) {
