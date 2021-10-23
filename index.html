@@ -66,6 +66,7 @@
             minlength="2"
             maxlength="40"
             id="name-input"
+            placeholder="Имя"
           />
           <span class="popup__input-error name-input-error"></span>
           <input
@@ -75,11 +76,14 @@
             minlength="2"
             maxlength="200"
             id="job-input"
+            placeholder="О себе"
           />
           <span class="popup__input-error job-input-error"></span>
         </fieldset>
         <fieldset class="popup__handlers">
-          <button type="submit" class="popup__button">Сохранить</button>
+          <button type="submit" class="popup__button edit-profile__button">
+            Сохранить
+          </button>
         </fieldset>
       </form>
     </div>
@@ -104,7 +108,7 @@
           />
           <span class="popup__input-error location-input-error"></span>
           <input
-            type="text"
+            type="url"
             placeholder="Ссылка на картинку"
             class="popup__item popup__item_type_link"
             required

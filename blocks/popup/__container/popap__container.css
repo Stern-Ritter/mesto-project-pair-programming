@@ -10,10 +10,16 @@
   color: #000;
   z-index: 4;
   box-sizing: border-box;
-  
 }
 
-@media (max-width: 560px) {
+@media (max-width: 700px) {
+  .popup__container {
+    width: 90%;
+    min-height: 322px;
+  }
+}
+
+@media (max-width: 500px) {
   .popup__container {
     width: 75%;
     min-height: 322px;
