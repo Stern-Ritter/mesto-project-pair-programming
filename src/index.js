@@ -1,3 +1,5 @@
+import "../pages/index.css";
+
 import { createCard, initialCards, popupImage } from "./components/card.js";
 
 import {
