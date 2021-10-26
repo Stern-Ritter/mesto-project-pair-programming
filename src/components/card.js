@@ -8,7 +8,7 @@ function createCard(itemImage, itemLocation) {
   const elementImage = cardElement.querySelector(".element__image");
   elementImage.src = itemImage;
   cardElement.querySelector(".element__text").textContent = itemLocation;
-  elementImage.alt = "Иллюстрация места.";
+  elementImage.alt = `Иллюстрация места ${itemLocation}`;
   cardElement
     .querySelector(".element__like")
     .addEventListener("click", function (evt) {
