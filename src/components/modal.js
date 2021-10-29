@@ -1,5 +1,6 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
+import { editProfile } from "./api.js";
 
 const placeFormElement = document.querySelector(".popup__container-place");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
@@ -20,6 +21,10 @@ function submitFormProfile(evt) {
   evt.preventDefault();
   profileTitle.textContent = `${nameInput.value}`;
   profileSubtitle.textContent = `${jobInput.value}`;
+  editProfile({
+    name: nameInput.value,
+    about: jobInput.value,
+  });
   closePopup(popupProfile);
 }
 

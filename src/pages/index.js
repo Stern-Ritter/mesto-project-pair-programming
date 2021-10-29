@@ -1,6 +1,6 @@
 import "./index.css";
 
-import { createCard, initialCards, popupImage } from "../components/card.js";
+import { createCard, popupImage } from "../components/card.js";
 
 import {
   isValid,
@@ -31,11 +31,30 @@ import {
   popupProfile,
 } from "../components/modal.js";
 
+import { getUser, editProfile, cards } from "../components/api.js";
+
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
 const popupButton = document.querySelector(".popup__button");
 const placeButton = document.querySelector(".place__button");
 const popups = document.querySelectorAll(".popup");
+const avatarUser = document.querySelectorAll(".profile__avatar");
+
+function showUser() {
+  getUser().then((data) => {
+    console.log(data);
+    profileTitle.textContent = data.name;
+    profileSubtitle.textContent = data.about;
+    avatarUser.href = data.avatar;
+  });
+}
+showUser();
+
+// about: "Sailor, researcher"
+// avatar: "https://pictures.s3.yandex.net/frontend-developer/common/ava.jpg"
+// cohort: "plus-cohort-3"
+// name: "Jacques Cousteau"
+// _id: "e5fcdabd0c334fb91ee2be3d"
 
 profileEditBbutton.addEventListener("click", function () {
   openPopup(popupProfile);
@@ -67,10 +86,15 @@ formElem.addEventListener("submit", submitFormProfile);
 
 placeFormElement.addEventListener("submit", submitFormPlace);
 
-initialCards.forEach(function (element) {
-  const card = createCard(element.link, element.name);
-  elementContainer.append(card);
-});
+function addCard() {
+  cards().then((data) => {
+    data.forEach(function (element) {
+      const card = createCard(element.link, element.name);
+      elementContainer.append(card);
+    });
+  });
+}
+addCard();
 
 enableValidation({
   formSelector: ".popup__container",
