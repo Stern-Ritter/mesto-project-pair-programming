@@ -50,12 +50,6 @@ function showUser() {
 }
 showUser();
 
-// about: "Sailor, researcher"
-// avatar: "https://pictures.s3.yandex.net/frontend-developer/common/ava.jpg"
-// cohort: "plus-cohort-3"
-// name: "Jacques Cousteau"
-// _id: "e5fcdabd0c334fb91ee2be3d"
-
 profileEditBbutton.addEventListener("click", function () {
   openPopup(popupProfile);
   nameInput.value = profileTitle.textContent;
@@ -89,7 +83,9 @@ placeFormElement.addEventListener("submit", submitFormPlace);
 function addCard() {
   cards().then((data) => {
     data.forEach(function (element) {
-      const card = createCard(element.link, element.name);
+      const card = createCard(element.link, element.name, element.likes);
+
+      console.log(element._id);
       elementContainer.append(card);
     });
   });
