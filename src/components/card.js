@@ -1,8 +1,9 @@
+import { like } from "./api.js";
 import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
 
-function createCard(itemImage, itemLocation) {
+function createCard(itemImage, itemLocation, itemLike) {
   const cardTemplate = document.querySelector(".elements-template").content;
   const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
   const elementImage = cardElement.querySelector(".element__image");
@@ -14,6 +15,8 @@ function createCard(itemImage, itemLocation) {
     .addEventListener("click", function (evt) {
       evt.target.classList.toggle("element__like_active");
     });
+  like();
+
   const deleteButton = cardElement.querySelector(".element__delete");
   deleteButton.addEventListener("click", function () {
     cardElement.remove();
@@ -21,6 +24,7 @@ function createCard(itemImage, itemLocation) {
   elementImage.addEventListener("click", function () {
     openPopup(popupImage);
     const imageContainer = document.querySelector(".image__container");
+
     imageContainer.querySelector(".image__src").src = itemImage;
     imageContainer.querySelector(".image__place").textContent = itemLocation;
   });

@@ -1,6 +1,6 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
-import { editProfile } from "./api.js";
+import { editProfile, addNewCard } from "./api.js";
 
 const placeFormElement = document.querySelector(".popup__container-place");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
@@ -32,6 +32,10 @@ function submitFormPlace(evt) {
   evt.preventDefault();
   const card = createCard(linkInput.value, locationInput.value);
   elementContainer.prepend(card);
+  addNewCard({
+    name: locationInput.value,
+    link: linkInput.value,
+  });
   closePopup(popupPlace);
 }
 

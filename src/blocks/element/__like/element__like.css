@@ -1,4 +1,5 @@
 .element__like {
+  margin-top: 22px;
   border: none;
   width: 22px;
   height: 19px;
@@ -16,4 +17,3 @@
   background-repeat: no-repeat;
   background-position: center;
 }
-
