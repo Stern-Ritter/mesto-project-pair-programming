@@ -6,6 +6,14 @@ import {
   profile,
 } from "./modal.js";
 
+// const config = {
+//   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
+//   headers: {
+//     authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+//     "Content-Type": "application/json",
+//   },
+// };
+
 function getUser() {
   return fetch("https://nomoreparties.co/v1/plus-cohort-3/users/me", {
     headers: {
@@ -15,6 +23,7 @@ function getUser() {
     if (res.ok) {
       return res.json();
     }
+    return Promise.reject(`Ошибка: ${res.status}`);
   });
 }
 
@@ -41,10 +50,11 @@ function cards() {
     if (res.ok) {
       return res.json();
     }
+    return Promise.reject(`Ошибка: ${res.status}`);
   });
 }
 
-function addNewCard(add) {
+function addNewCard(card) {
   fetch("https://nomoreparties.co/v1/plus-cohort-3/cards", {
     method: "POST",
     headers: {
@@ -52,20 +62,43 @@ function addNewCard(add) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      name: add.name,
-      link: add.link,
+      name: card.name,
+      link: card.link,
+      _id: card._id,
     }),
   });
 }
 
-function like(el) {
-  fetch("https://nomoreparties.co/v1/plus-cohort-3/cards/likes/cards:_id", {
-    method: "PUT",
+function deleteCard(cardId) {
+  return fetch(`https://nomoreparties.co/v1/plus-cohort-3/cards/${cardId}`, {
+    method: "DELETE",
     headers: {
       authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-      "Content-Type": "application/json",
     },
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   });
 }
 
-export { getUser, editProfile, cards, addNewCard, like };
+function like(cardId) {
+  return fetch(
+    `https://nomoreparties.co/v1/plus-cohort-3/cards/likes/${cardId}`,
+    {
+      method: "PUT",
+      headers: {
+        authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  });
+}
+
+export { getUser, editProfile, cards, addNewCard, deleteCard, like };

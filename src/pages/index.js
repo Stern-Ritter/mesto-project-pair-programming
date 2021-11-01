@@ -31,7 +31,13 @@ import {
   popupProfile,
 } from "../components/modal.js";
 
-import { getUser, editProfile, cards } from "../components/api.js";
+import {
+  getUser,
+  editProfile,
+  cards,
+  config,
+  like,
+} from "../components/api.js";
 
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
@@ -83,9 +89,8 @@ placeFormElement.addEventListener("submit", submitFormPlace);
 function addCard() {
   cards().then((data) => {
     data.forEach(function (element) {
-      const card = createCard(element.link, element.name, element.likes);
-
-      console.log(element._id);
+      const card = createCard(element.link, element.name, element._id);
+      console.log(element);
       elementContainer.append(card);
     });
   });
