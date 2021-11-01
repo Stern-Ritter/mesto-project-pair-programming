@@ -17,7 +17,7 @@ module.exports = {
     static: path.resolve(__dirname, "./dist"),
     open: true,
     compress: true,
-    port: 4500,
+    port: 5500,
   },
   module: {
     rules: [
