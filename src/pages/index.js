@@ -47,12 +47,15 @@ const popups = document.querySelectorAll(".popup");
 const avatarUser = document.querySelectorAll(".profile__avatar");
 
 function showUser() {
-  getUser().then((data) => {
-    console.log(data);
-    profileTitle.textContent = data.name;
-    profileSubtitle.textContent = data.about;
-    avatarUser.href = data.avatar;
-  });
+  getUser()
+    .then((data) => {
+      profileTitle.textContent = data.name;
+      profileSubtitle.textContent = data.about;
+      avatarUser.href = data.avatar;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 showUser();
 
@@ -87,13 +90,17 @@ formElem.addEventListener("submit", submitFormProfile);
 placeFormElement.addEventListener("submit", submitFormPlace);
 
 function addCard() {
-  cards().then((data) => {
-    data.forEach(function (element) {
-      const card = createCard(element.link, element.name, element._id);
-      console.log(element);
-      elementContainer.append(card);
+  cards()
+    .then((data) => {
+      data.forEach(function (element) {
+        const card = createCard(element.link, element.name, element._id);
+
+        elementContainer.append(card);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 }
 addCard();
 
