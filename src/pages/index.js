@@ -49,6 +49,7 @@ const avatarUser = document.querySelectorAll(".profile__avatar");
 function showUser() {
   getUser()
     .then((data) => {
+      console.log(data);
       profileTitle.textContent = data.name;
       profileSubtitle.textContent = data.about;
       avatarUser.href = data.avatar;

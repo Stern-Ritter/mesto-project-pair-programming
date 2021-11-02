@@ -1,7 +1,15 @@
-import { deleteCard, cards, like, likeDelete } from "./api.js";
+import { deleteCard, cards, like, likeDelete, likeChange } from "./api.js";
 import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
+
+// window.onload = function () {
+//   const like = document.querySelector(".element__like");
+//   if (localStorage.getItem("likes") !== null) {
+//     // likes.target.classList.add("element__like_active");
+//     console.log(like);
+//   }
+// };
 
 function createCard(itemImage, itemLocation, itemid) {
   const cardTemplate = document.querySelector(".elements-template").content;
@@ -16,7 +24,8 @@ function createCard(itemImage, itemLocation, itemid) {
   likeButton.addEventListener("click", function (evt) {
     if (!evt.target.classList.contains("element__like_active")) {
       evt.target.classList.add("element__like_active");
-      // likeOn();
+
+      console.log(evt.target);
 
       like(itemid)
         .then((data) => {
@@ -26,8 +35,6 @@ function createCard(itemImage, itemLocation, itemid) {
         .catch((err) => {
           console.log(err.message);
         });
-
-      likeOn();
     } else {
       evt.target.classList.remove("element__like_active");
       likeDelete(itemid)
@@ -40,6 +47,20 @@ function createCard(itemImage, itemLocation, itemid) {
         });
     }
   });
+
+  likeChange(itemid)
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      numberLike.textContent = data.likes.length - 1;
+    })
+
+    .catch((err) => {
+      console.log(err.message);
+    });
 
   const deleteButton = cardElement.querySelector(".element__delete");
   deleteButton.addEventListener("click", function () {
@@ -63,23 +84,28 @@ function createCard(itemImage, itemLocation, itemid) {
   return cardElement;
 }
 
-function likeActive() {
-  const like = document.querySelector(".element__like");
-  try {
-    if (localStorage.getItem("likeon") === "likeActive") {
-      like.target.classList.add("element__like_active");
-      console.log(like);
-    }
-  } catch (err) {}
-}
+// function likeActive(like) {
+//   if (localStorage.getItem("likes") === "likes") {
+//     const like = document.querySelector(".element__like");
+//     // like.target.classList.add("element__like_active");
+//     console.log(like);
+//   }
+// }
 
-likeActive();
+// likeActive();
 
-function likeOn() {
-  if (localStorage.getItem("likeon") !== "likeActive") {
-    localStorage.setItem("likeon", "likeActive");
-  }
-  likeActive();
-}
+// function likeOn() {
+//   if (localStorage.getItem("likes") !== "likes") {
+//     localStorage.setItem("likes", "likes");
+//   }
+//   likeActive();
+// }
+
+// window.onload = function () {
+//   if (localStorage.getItem("likes") === "likes") {
+//     evt.target.classList.add("element__like_active");
+//     console.log(evt.target);
+//   }
+// };
 
 export { createCard, popupImage };
