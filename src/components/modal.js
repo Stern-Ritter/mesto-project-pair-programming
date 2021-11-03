@@ -1,6 +1,6 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
-import { editProfile, addNewCard } from "./api.js";
+import { editProfile, addNewCard, avatarChange } from "./api.js";
 
 const placeFormElement = document.querySelector(".popup__container-place");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
@@ -16,6 +16,9 @@ const formElem = document.querySelector(".edit-profile__container");
 const nameInput = formElem.querySelector(".popup__item_type_name");
 const jobInput = formElem.querySelector(".popup__item_type_job");
 const popupProfile = document.querySelector(".edit-profile");
+const avatarFormElement = document.querySelector(".avatar__container");
+const avatarInput = document.querySelector(".popup__item_type_avatar");
+const popupAvatar = document.querySelector(".avatar");
 
 function submitFormProfile(evt) {
   evt.preventDefault();
@@ -36,12 +39,22 @@ function submitFormPlace(evt) {
     name: locationInput.value,
     link: linkInput.value,
   });
+
   closePopup(popupPlace);
+}
+
+function submitFormAvatar(evt) {
+  evt.preventDefault();
+  avatarChange({
+    avatar: avatarInput.value,
+  });
+  closePopup(popupAvatar);
 }
 
 export {
   submitFormProfile,
   submitFormPlace,
+  submitFormAvatar,
   linkInput,
   locationInput,
   placeFormElement,
@@ -54,4 +67,6 @@ export {
   nameInput,
   jobInput,
   popupProfile,
+  avatarFormElement,
+  popupAvatar,
 };

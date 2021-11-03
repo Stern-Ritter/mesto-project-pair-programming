@@ -119,6 +119,62 @@ function likeDelete(cardId) {
   });
 }
 
+// function likeChange(cardId) {
+//   return fetch(
+//     `https://nomoreparties.co/v1/plus-cohort-3/cards/likes/${cardId}`,
+//     {
+//       method: "PUT",
+//       headers: {
+//         authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         _id: cardId._id,
+//         likes: cardId.likes,
+//       }),
+//     }
+//   );
+// }
+
+// function likeChange() {
+//   return fetch("https://nomoreparties.co/v1/plus-cohort-3/cards", {
+//     headers: {
+//       authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+//     },
+//   }).then((res) => {
+//     if (res.ok) {
+//       return res.json();
+//     }
+//     return Promise.reject(`Ошибка: ${res.status}`);
+//   });
+// }
+
+// function cards() {
+//   return fetch("https://nomoreparties.co/v1/plus-cohort-3/cards", {
+//     headers: {
+//       authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+//     },
+//   }).then((res) => {
+//     if (res.ok) {
+//       return res.json();
+//     }
+//     return Promise.reject(`Ошибка: ${res.status}`);
+//   });
+// }
+
+function avatarChange(me) {
+  return fetch("https://nomoreparties.co/v1/plus-cohort-3/users/me/avatar ", {
+    method: "PATCH",
+    headers: {
+      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      avatar: me.avatar,
+    }),
+  });
+}
+
 export {
   getUser,
   editProfile,
@@ -127,4 +183,5 @@ export {
   deleteCard,
   like,
   likeDelete,
+  avatarChange,
 };
