@@ -35,6 +35,7 @@ function createCard(itemImage, itemLocation, itemid) {
         .catch((err) => {
           console.log(err.message);
         });
+      likeChange();
     } else {
       evt.target.classList.remove("element__like_active");
       likeDelete(itemid)
@@ -45,17 +46,18 @@ function createCard(itemImage, itemLocation, itemid) {
         .catch((err) => {
           console.log(err.message);
         });
+      likeChange();
     }
   });
 
-  likeChange(itemid)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
+  likeChange()
     .then((data) => {
-      numberLike.textContent = data.likes.length - 1;
+      console.log(data);
+      data.forEach((element) => {
+        numberLike.textContent = element.likes.length;
+      });
+      // console.log(data);
+      // numberLike.textContent = data.likes.length;
     })
 
     .catch((err) => {
