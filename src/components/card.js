@@ -1,4 +1,4 @@
-import { deleteCard, cards, like, likeDelete, likeChange } from "./api.js";
+import { deleteCard, cards, like, likeDelete } from "./api.js";
 import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
@@ -35,7 +35,7 @@ function createCard(itemImage, itemLocation, itemid) {
         .catch((err) => {
           console.log(err.message);
         });
-      likeChange();
+      likenew();
     } else {
       evt.target.classList.remove("element__like_active");
       likeDelete(itemid)
@@ -46,23 +46,25 @@ function createCard(itemImage, itemLocation, itemid) {
         .catch((err) => {
           console.log(err.message);
         });
-      likeChange();
+      likenew();
     }
   });
 
-  likeChange()
-    .then((data) => {
-      console.log(data);
-      data.forEach((element) => {
-        numberLike.textContent = element.likes.length;
-      });
-      // console.log(data);
-      // numberLike.textContent = data.likes.length;
-    })
+  // likeChange()
+  //   .then((data) => {
+  //     console.log(data);
+  //     data.forEach((element) => {
+  //       console.log(element.likes.length);
+  //       // console.log(numberLike);
+  //       numberLike.textContent = element.likes.length;
+  //     });
+  //     // console.log(data);
+  //     // numberLike.textContent = data.likes.length;
+  //   })
 
-    .catch((err) => {
-      console.log(err.message);
-    });
+  // .catch((err) => {
+  //   console.log(err.message);
+  // });
 
   const deleteButton = cardElement.querySelector(".element__delete");
   deleteButton.addEventListener("click", function () {
@@ -85,6 +87,29 @@ function createCard(itemImage, itemLocation, itemid) {
   });
   return cardElement;
 }
+
+const cardTemplate = document.querySelector(".elements-template").content;
+const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
+const numberLike = cardElement.querySelector(".element__number-like");
+
+function likenew() {
+  cards()
+    .then((data) => {
+      console.log(data);
+      data.forEach((element) => {
+        console.log(element.likes.length);
+        console.log(numberLike);
+
+        numberLike.textContent = element.likes.length;
+      });
+      // console.log(data);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+
+likenew();
 
 // function likeActive(like) {
 //   if (localStorage.getItem("likes") === "likes") {

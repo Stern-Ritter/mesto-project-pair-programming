@@ -39,6 +39,7 @@ function submitFormPlace(evt) {
     name: locationInput.value,
     link: linkInput.value,
   });
+
   closePopup(popupPlace);
 }
 

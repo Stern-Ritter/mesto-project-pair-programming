@@ -41,6 +41,7 @@ import {
   config,
   like,
   avatarChange,
+  likeChange,
 } from "../components/api.js";
 
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
@@ -106,6 +107,7 @@ avatarFormElement.addEventListener("submit", submitFormAvatar);
 function addCard() {
   cards()
     .then((data) => {
+      console.log(data);
       data.forEach(function (element) {
         const card = createCard(element.link, element.name, element._id);
 
@@ -117,6 +119,10 @@ function addCard() {
     });
 }
 addCard();
+
+const cardTemplate = document.querySelector(".elements-template").content;
+const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
+const numberLike = cardElement.querySelector(".element__number-like");
 
 // function newAvatar() {
 //   avatarChange().then((data) => {

@@ -1,14 +1,3 @@
 .profile__modify {
   position: relative;
 }
-
-/* .profile__modify:before {
-  visibility: hidden;
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 120px;
-  background: rgba(0, 0, 0, 0.8);
-} */

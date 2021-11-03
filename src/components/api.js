@@ -136,18 +136,31 @@ function likeDelete(cardId) {
 //   );
 // }
 
-function likeChange() {
-  return fetch("https://nomoreparties.co/v1/plus-cohort-3/cards/", {
-    headers: {
-      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
-}
+// function likeChange() {
+//   return fetch("https://nomoreparties.co/v1/plus-cohort-3/cards", {
+//     headers: {
+//       authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+//     },
+//   }).then((res) => {
+//     if (res.ok) {
+//       return res.json();
+//     }
+//     return Promise.reject(`Ошибка: ${res.status}`);
+//   });
+// }
+
+// function cards() {
+//   return fetch("https://nomoreparties.co/v1/plus-cohort-3/cards", {
+//     headers: {
+//       authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+//     },
+//   }).then((res) => {
+//     if (res.ok) {
+//       return res.json();
+//     }
+//     return Promise.reject(`Ошибка: ${res.status}`);
+//   });
+// }
 
 function avatarChange(me) {
   return fetch("https://nomoreparties.co/v1/plus-cohort-3/users/me/avatar ", {
@@ -170,6 +183,5 @@ export {
   deleteCard,
   like,
   likeDelete,
-  likeChange,
   avatarChange,
 };
