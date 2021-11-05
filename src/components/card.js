@@ -1,17 +1,11 @@
-import { deleteCard, cards, like, likeDelete } from "./api.js";
+import { deleteCard, cards, like, likeDelete, getUser } from "./api.js";
 import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
 
-// window.onload = function () {
-//   const like = document.querySelector(".element__like");
-//   if (localStorage.getItem("likes") !== null) {
-//     // likes.target.classList.add("element__like_active");
-//     console.log(like);
-//   }
-// };
+likenew();
 
-function createCard(itemImage, itemLocation, itemid) {
+function createCard(itemImage, itemLocation, itemid, userId) {
   const cardTemplate = document.querySelector(".elements-template").content;
   const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
   const elementImage = cardElement.querySelector(".element__image");
@@ -25,15 +19,16 @@ function createCard(itemImage, itemLocation, itemid) {
     if (!evt.target.classList.contains("element__like_active")) {
       evt.target.classList.add("element__like_active");
 
-      console.log(evt.target);
+      // console.log(evt.target);
 
       like(itemid)
         .then((data) => {
           numberLike.textContent = data.likes.length;
-          console.log(data.likes);
+
+          // console.log(data.owner._id);
         })
         .catch((err) => {
-          console.log(err.message);
+          console.log(err.message.length);
         });
       likenew();
     } else {
@@ -41,7 +36,7 @@ function createCard(itemImage, itemLocation, itemid) {
       likeDelete(itemid)
         .then((data) => {
           numberLike.textContent = data.likes.length;
-          console.log(data.likes);
+          // console.log(data.likes.length);
         })
         .catch((err) => {
           console.log(err.message);
@@ -50,23 +45,20 @@ function createCard(itemImage, itemLocation, itemid) {
     }
   });
 
-  // likeChange()
-  //   .then((data) => {
-  //     console.log(data);
-  //     data.forEach((element) => {
-  //       console.log(element.likes.length);
-  //       // console.log(numberLike);
-  //       numberLike.textContent = element.likes.length;
-  //     });
-  //     // console.log(data);
-  //     // numberLike.textContent = data.likes.length;
-  //   })
-
-  // .catch((err) => {
-  //   console.log(err.message);
-  // });
-
   const deleteButton = cardElement.querySelector(".element__delete");
+  // deleteButton.classList.add("element__delete-none");
+
+  // cards().then((res) => {
+  //   console.log(res);
+  //   res.forEach((element) => {
+  //     if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
+  //       console.log(element.owner._id == "e5fcdabd0c334fb91ee2be3d");
+  //       console.log(typeof "e5fcdabd0c334fb91ee2be3d");
+  //       console.log(element.owner._id);
+  //       deleteButton.classList.remove("element__delete-none");
+  //     }
+  //   });
+  // });
   deleteButton.addEventListener("click", function () {
     cardElement.remove();
 
@@ -78,6 +70,7 @@ function createCard(itemImage, itemLocation, itemid) {
         console.log(err);
       });
   });
+
   elementImage.addEventListener("click", function () {
     openPopup(popupImage);
     const imageContainer = document.querySelector(".image__container");
@@ -95,10 +88,10 @@ const numberLike = cardElement.querySelector(".element__number-like");
 function likenew() {
   cards()
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       data.forEach((element) => {
-        console.log(element.likes.length);
-        console.log(numberLike);
+        // console.log(element.likes.length);
+        // console.log(numberLike);
 
         numberLike.textContent = element.likes.length;
       });
@@ -109,30 +102,21 @@ function likenew() {
     });
 }
 
+// const cardTemplate = document.querySelector(".elements-template").content;
+// const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
+// const deleteButton = cardElement.querySelector(".element__delete");
+// deleteButton.classList.remove("element__delete-none");
+// deleteButton.addEventListener("click", function () {
+//   cardElement.remove();
+//   deleteCard(itemid)
+//     .then((data) => {
+//       console.log(data);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
 likenew();
-
-// function likeActive(like) {
-//   if (localStorage.getItem("likes") === "likes") {
-//     const like = document.querySelector(".element__like");
-//     // like.target.classList.add("element__like_active");
-//     console.log(like);
-//   }
-// }
-
-// likeActive();
-
-// function likeOn() {
-//   if (localStorage.getItem("likes") !== "likes") {
-//     localStorage.setItem("likes", "likes");
-//   }
-//   likeActive();
-// }
-
-// window.onload = function () {
-//   if (localStorage.getItem("likes") === "likes") {
-//     evt.target.classList.add("element__like_active");
-//     console.log(evt.target);
-//   }
-// };
 
 export { createCard, popupImage };

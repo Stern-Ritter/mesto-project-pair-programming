@@ -6,19 +6,17 @@ import {
   profile,
 } from "./modal.js";
 
-// const config = {
-//   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
-//   headers: {
-//     authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-//     "Content-Type": "application/json",
-//   },
-// };
+const config = {
+  baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
+  headers: {
+    authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+    "Content-Type": "application/json",
+  },
+};
 
 function getUser() {
-  return fetch("https://nomoreparties.co/v1/plus-cohort-3/users/me", {
-    headers: {
-      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-    },
+  return fetch(`${config.baseUrl}/users/me`, {
+    headers: config.headers,
   }).then((res) => {
     if (res.ok) {
       return res.json();
@@ -28,24 +26,22 @@ function getUser() {
 }
 
 function editProfile(edit) {
-  fetch("https://nomoreparties.co/v1/plus-cohort-3/users/me", {
+  fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
-    headers: {
-      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-      "Content-Type": "application/json",
-    },
+    headers: config.headers,
+    "Content-Type": "application/json",
+
     body: JSON.stringify({
       name: edit.name,
       about: edit.about,
+      avatar: edit.avatar,
     }),
   });
 }
 
 function cards() {
-  return fetch("https://nomoreparties.co/v1/plus-cohort-3/cards", {
-    headers: {
-      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-    },
+  return fetch(`${config.baseUrl}/cards`, {
+    headers: config.headers,
   }).then((res) => {
     if (res.ok) {
       return res.json();
@@ -55,12 +51,11 @@ function cards() {
 }
 
 function addNewCard(card) {
-  fetch("https://nomoreparties.co/v1/plus-cohort-3/cards", {
+  fetch(`${config.baseUrl}/cards`, {
     method: "POST",
-    headers: {
-      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-      "Content-Type": "application/json",
-    },
+    headers: config.headers,
+    "Content-Type": "application/json",
+
     body: JSON.stringify({
       name: card.name,
       link: card.link,
@@ -70,11 +65,9 @@ function addNewCard(card) {
 }
 
 function deleteCard(cardId) {
-  return fetch(`https://nomoreparties.co/v1/plus-cohort-3/cards/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
-    headers: {
-      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-    },
+    headers: config.headers,
   }).then((res) => {
     if (res.ok) {
       return res.json();
@@ -84,16 +77,11 @@ function deleteCard(cardId) {
 }
 
 function like(cardId) {
-  return fetch(
-    `https://nomoreparties.co/v1/plus-cohort-3/cards/likes/${cardId}`,
-    {
-      method: "PUT",
-      headers: {
-        authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((res) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: config.headers,
+    "Content-Type": "application/json",
+  }).then((res) => {
     if (res.ok) {
       return res.json();
     }
@@ -102,16 +90,11 @@ function like(cardId) {
 }
 
 function likeDelete(cardId) {
-  return fetch(
-    `https://nomoreparties.co/v1/plus-cohort-3/cards/likes/${cardId}`,
-    {
-      method: "DELETE",
-      headers: {
-        authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((res) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
+    "Content-Type": "application/json",
+  }).then((res) => {
     if (res.ok) {
       return res.json();
     }
@@ -163,12 +146,11 @@ function likeDelete(cardId) {
 // }
 
 function avatarChange(me) {
-  return fetch("https://nomoreparties.co/v1/plus-cohort-3/users/me/avatar ", {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
-    headers: {
-      authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
-      "Content-Type": "application/json",
-    },
+    headers: config.headers,
+    "Content-Type": "application/json",
+
     body: JSON.stringify({
       avatar: me.avatar,
     }),
@@ -184,4 +166,5 @@ export {
   like,
   likeDelete,
   avatarChange,
+  config,
 };

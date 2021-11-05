@@ -42,6 +42,7 @@ import {
   like,
   avatarChange,
   likeChange,
+  deleteCard,
 } from "../components/api.js";
 
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
@@ -53,10 +54,24 @@ const avatarButton = document.querySelector(".avatar__button");
 const popups = document.querySelectorAll(".popup");
 const avatarUser = document.querySelector(".profile__avatar");
 
+const cardTemplate = document.querySelector(".elements-template").content;
+const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
+const likeButton = cardElement.querySelector(".element__like");
+
+window.onload = function () {
+  if (localStorage.getItem("likes") === "likes") {
+    likeButton.classList.add("element__like_active");
+  }
+};
+
+likeOn();
+
+// console.log(likeButton);
+// console.log(document.querySelector(".profile__avatar"));
+
 function showUser() {
   getUser()
     .then((data) => {
-      console.log(data.avatar);
       profileTitle.textContent = data.name;
       profileSubtitle.textContent = data.about;
       avatarUser.src = data.avatar;
@@ -107,7 +122,13 @@ avatarFormElement.addEventListener("submit", submitFormAvatar);
 function addCard() {
   cards()
     .then((data) => {
-      console.log(data);
+      const cardTemplate = document.querySelector(".elements-template").content;
+      const cardElement = cardTemplate
+        .querySelector(".element")
+        .cloneNode(true);
+      const deleteButton = cardElement.querySelector(".element__delete");
+
+      // console.log(data);
       data.forEach(function (element) {
         const card = createCard(element.link, element.name, element._id);
 
@@ -120,9 +141,7 @@ function addCard() {
 }
 addCard();
 
-const cardTemplate = document.querySelector(".elements-template").content;
-const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
-const numberLike = cardElement.querySelector(".element__number-like");
+// const numberLike = cardElement.querySelector(".element__number-like");
 
 // function newAvatar() {
 //   avatarChange().then((data) => {
@@ -130,6 +149,39 @@ const numberLike = cardElement.querySelector(".element__number-like");
 //   });
 // }
 // newAvatar();
+
+// deleteButton.classList.remove("element__delete-none");
+const deleteButton = cardElement.querySelector(".element__delete");
+// deleteButton.classList.remove("element__delete-none");
+// deleteButton.addEventListener("click", function () {
+//   cardElement.remove();
+//   deleteCard(itemid)
+//     .then((data) => {
+//       console.log(data);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+function likeActive() {
+  if (localStorage.getItem("likes") === "likes") {
+    likeButton.classList.add("element__like_active");
+    // deleteButton.classList.remove("element__delete-none");
+    // console.log(like);
+  }
+}
+
+likeActive();
+
+function likeOn() {
+  if (localStorage.getItem("likes") !== "likes") {
+    localStorage.setItem("likes", "likes");
+  }
+  likeActive();
+}
+
+likeOn();
 
 enableValidation({
   formSelector: ".popup__container",
