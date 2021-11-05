@@ -49,6 +49,7 @@ const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
 const avatarEditButton = document.querySelector(".profile__modify-button");
 const popupButton = document.querySelector(".popup__button");
+const profileButton = document.querySelector(".edit-profile__button");
 const placeButton = document.querySelector(".place__button");
 const avatarButton = document.querySelector(".avatar__button");
 const popups = document.querySelectorAll(".popup");
@@ -86,13 +87,15 @@ profileEditBbutton.addEventListener("click", function () {
   openPopup(popupProfile);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-  popupButton.classList.remove("popup__button_inactive");
-  popupButton.removeAttribute("disabled");
+  profileButton.textContent = "Сохранить";
+  profileButton.classList.remove("popup__button_inactive");
+  profileButton.removeAttribute("disabled");
 });
 
 profileAddBbutton.addEventListener("click", function () {
   openPopup(popupPlace);
   placeFormElement.reset();
+  placeButton.textContent = "Создать";
   placeButton.classList.add("popup__button_inactive");
   placeButton.setAttribute("disabled", true);
 });
@@ -100,6 +103,9 @@ profileAddBbutton.addEventListener("click", function () {
 avatarEditButton.addEventListener("click", function () {
   openPopup(popupAvatar);
   avatarFormElement.reset();
+  avatarButton.textContent = "Сохранить";
+  avatarButton.classList.add("popup__button_inactive");
+  avatarButton.setAttribute("disabled", true);
 });
 
 popups.forEach(function (popup) {

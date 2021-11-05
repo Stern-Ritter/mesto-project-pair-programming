@@ -26,24 +26,27 @@ const avatarFormElement = document.querySelector(".avatar__container");
 const avatarInput = document.querySelector(".popup__item_type_avatar");
 const popupAvatar = document.querySelector(".avatar");
 
-const popupButton = document.querySelectorAll(".popup__button");
+const profileButton = document.querySelector(".edit-profile__button");
+const placeButton = document.querySelector(".place__button");
+const avatarButton = document.querySelector(".avatar__button");
+const popupButton = document.querySelector(".popup__button");
 
 function submitFormProfile(evt) {
   evt.preventDefault();
-  renderLoading(true);
+  renderLoading(profileButton, true);
   profileTitle.textContent = `${nameInput.value}`;
   profileSubtitle.textContent = `${jobInput.value}`;
   editProfile({
     name: nameInput.value,
     about: jobInput.value,
   });
-  renderLoading(false);
+
   closePopup(popupProfile);
 }
 
 function submitFormPlace(evt, cardId) {
   evt.preventDefault();
-  renderLoading(true);
+  renderLoading(placeButton, true);
   const card = createCard(linkInput.value, locationInput.value);
   elementContainer.prepend(card);
   // const deleteButton = document.querySelector(".element__delete");
@@ -77,22 +80,23 @@ function submitFormPlace(evt, cardId) {
         console.log(err);
       });
   });
-  renderLoading(false);
+
   closePopup(popupPlace);
 }
 
 function submitFormAvatar(evt) {
   evt.preventDefault();
-  renderLoading(true);
+  renderLoading(avatarButton, true);
   avatarChange({
     avatar: avatarInput.value,
   });
-  renderLoading(false);
+
   closePopup(popupAvatar);
 }
 
-function renderLoading(isLoading) {
+function renderLoading(button, isLoading) {
   if (isLoading) {
+    button.textContent = "Сохранение...";
     console.log(popupButton);
   }
 }
