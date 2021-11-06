@@ -3,8 +3,6 @@ import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
 
-likenew();
-
 function createCard(itemImage, itemLocation, itemid, userId) {
   const cardTemplate = document.querySelector(".elements-template").content;
   const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
@@ -30,6 +28,7 @@ function createCard(itemImage, itemLocation, itemid, userId) {
         .catch((err) => {
           console.log(err.message.length);
         });
+
       likenew();
     } else {
       evt.target.classList.remove("element__like_active");
@@ -45,31 +44,33 @@ function createCard(itemImage, itemLocation, itemid, userId) {
     }
   });
 
-  const deleteButton = cardElement.querySelector(".element__delete");
+  // const deleteButton = document.querySelector(".element__delete");
   // deleteButton.classList.add("element__delete-none");
 
   // cards().then((res) => {
-  //   console.log(res);
+  //   // console.log(res);
   //   res.forEach((element) => {
-  //     if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
-  //       console.log(element.owner._id == "e5fcdabd0c334fb91ee2be3d");
-  //       console.log(typeof "e5fcdabd0c334fb91ee2be3d");
-  //       console.log(element.owner._id);
-  //       deleteButton.classList.remove("element__delete-none");
+  //     // console.log(element);
+  //     const id = element.owner._id;
+  //     if (id == "e5fcdabd0c334fb91ee2be3d") {
+  //       // console.log(id);
+  //       // deleteButton.classList.remove("element__delete-none");
   //     }
   //   });
   // });
-  deleteButton.addEventListener("click", function () {
-    cardElement.remove();
+  // deleteButton.addEventListener("click", function () {
+  //   console.log(deleteButton);
+  //   cardElement.remove();
+  // });
 
-    deleteCard(itemid)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+  //   deleteCard(itemid)
+  //     .then((data) => {
+  //       // console.log(data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // });
 
   elementImage.addEventListener("click", function () {
     openPopup(popupImage);
@@ -80,10 +81,6 @@ function createCard(itemImage, itemLocation, itemid, userId) {
   });
   return cardElement;
 }
-
-const cardTemplate = document.querySelector(".elements-template").content;
-const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
-const numberLike = cardElement.querySelector(".element__number-like");
 
 function likenew() {
   cards()
@@ -102,6 +99,10 @@ function likenew() {
     });
 }
 
+const cardTemplate = document.querySelector(".elements-template").content;
+const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
+const numberLike = cardElement.querySelector(".element__number-like");
+
 // const cardTemplate = document.querySelector(".elements-template").content;
 // const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
 // const deleteButton = cardElement.querySelector(".element__delete");
@@ -117,6 +118,26 @@ function likenew() {
 //     });
 // });
 
-likenew();
+const likeButton = cardElement.querySelector(".element__like");
 
-export { createCard, popupImage };
+function likeActive() {
+  try {
+    if (localStorage.getItem("likes") === "likes") {
+      console.log(likeButton);
+      likeButton.classList.add("element__like_active");
+      // deleteButton.classList.remove("element__delete-none");
+      // console.log(like);
+    }
+  } catch (err) {}
+}
+
+likeActive();
+
+function likeOn() {
+  if (localStorage.getItem("likes") !== "likes") {
+    localStorage.setItem("likes", "likes");
+  }
+  likeActive();
+}
+
+export { createCard, popupImage, likeActive };

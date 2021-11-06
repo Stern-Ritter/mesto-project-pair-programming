@@ -56,30 +56,34 @@ function submitFormPlace(evt, cardId) {
     link: linkInput.value,
   });
   cards().then((res) => {
-    console.log(res);
+    // console.log(res);
     res.forEach((element) => {
-      if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
-        // console.log(element.owner._id == "e5fcdabd0c334fb91ee2be3d");
-        // console.log(typeof "e5fcdabd0c334fb91ee2be3d");
-        // console.log(element.owner._id);
-        deleteButton.classList.remove("element__delete-none");
-      }
+      const del = document.createElement("button");
+      const elem = document.querySelector(".element");
+
+      del.classList.add("element__delete");
+      console.log(typeof del);
+      // const result = Object.values(del).map((v) => Object.values(v));
+
+      // console.log(result);
+
+      elem.prepend(del);
     });
   });
-  const cardTemplate = document.querySelector(".elements-template").content;
-  const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
-  const deleteButton = document.querySelector(".element__delete");
-  deleteButton.classList.remove("element__delete-none");
-  deleteButton.addEventListener("click", function () {
-    cardElement.remove();
-    deleteCard()
-      .then((data) => {
-        console.log(data.id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+  // const cardTemplate = document.querySelector(".elements-template").content;
+  // const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
+  // const deleteButton = document.querySelector(".element__delete");
+  // // deleteButton.classList.remove("element__delete-none");
+  // deleteButton.addEventListener("click", function () {
+  //   cardElement.remove();
+  //   deleteCard()
+  //     .then((data) => {
+  //       // console.log(data.id);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // });
 
   closePopup(popupPlace);
 }
@@ -97,7 +101,6 @@ function submitFormAvatar(evt) {
 function renderLoading(button, isLoading) {
   if (isLoading) {
     button.textContent = "Сохранение...";
-    console.log(popupButton);
   }
 }
 

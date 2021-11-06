@@ -1,6 +1,6 @@
 import "./index.css";
 
-import { createCard, popupImage } from "../components/card.js";
+import { createCard, popupImage, likeActive } from "../components/card.js";
 
 import {
   isValid,
@@ -59,13 +59,7 @@ const cardTemplate = document.querySelector(".elements-template").content;
 const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
 const likeButton = cardElement.querySelector(".element__like");
 
-window.onload = function () {
-  if (localStorage.getItem("likes") === "likes") {
-    likeButton.classList.add("element__like_active");
-  }
-};
-
-likeOn();
+//
 
 // console.log(likeButton);
 // console.log(document.querySelector(".profile__avatar"));
@@ -119,6 +113,8 @@ popups.forEach(function (popup) {
   });
 });
 
+likeActive();
+
 formElem.addEventListener("submit", submitFormProfile);
 
 placeFormElement.addEventListener("submit", submitFormPlace);
@@ -137,8 +133,41 @@ function addCard() {
       // console.log(data);
       data.forEach(function (element) {
         const card = createCard(element.link, element.name, element._id);
+        // console.log(element.owner._id);
+        if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
+          elementContainer.append(card);
 
-        elementContainer.append(card);
+          const del = document.createElement("button");
+          const elem = document.querySelectorAll(".element");
+          del.classList.add("element__delete");
+          console.log(elem);
+
+          elem.forEach((el) => {
+            el.prepend(del);
+          });
+
+          console.log(typeof del);
+          // const result = Object.values(del).map((v) => Object.values(v));
+
+          // console.log(result);
+
+          // elem.prepend(del);
+
+          del.addEventListener("click", function () {
+            console.log(cardElement);
+            deleteCard(element._id)
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+
+            cardElement.remove();
+          });
+        } else {
+          elementContainer.append(card);
+        }
       });
     })
     .catch((err) => {
@@ -157,37 +186,6 @@ addCard();
 // newAvatar();
 
 // deleteButton.classList.remove("element__delete-none");
-const deleteButton = cardElement.querySelector(".element__delete");
-// deleteButton.classList.remove("element__delete-none");
-// deleteButton.addEventListener("click", function () {
-//   cardElement.remove();
-//   deleteCard(itemid)
-//     .then((data) => {
-//       console.log(data);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
-function likeActive() {
-  if (localStorage.getItem("likes") === "likes") {
-    likeButton.classList.add("element__like_active");
-    // deleteButton.classList.remove("element__delete-none");
-    // console.log(like);
-  }
-}
-
-likeActive();
-
-function likeOn() {
-  if (localStorage.getItem("likes") !== "likes") {
-    localStorage.setItem("likes", "likes");
-  }
-  likeActive();
-}
-
-likeOn();
 
 enableValidation({
   formSelector: ".popup__container",
