@@ -11,4 +11,4 @@
 
 
 Cсылка на GitHub Pages:
-https://iikolchin.github.io/mesto-project/index.html
+https://iikolchin.github.io/mesto-project
