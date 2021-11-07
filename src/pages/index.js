@@ -1,25 +1,15 @@
 import "./index.css";
 
-import { createCard, popupImage } from "../components/card.js";
+import { createCard } from "../components/card.js";
 
-import {
-  isValid,
-  showInputError,
-  hideInputError,
-  hasInvalidInput,
-  toggleButtonState,
-  setEventListeners,
-  enableValidation,
-} from "../components/validate.js";
+import { enableValidation } from "../components/validate.js";
 
-import { openPopup, closePopup, closeByEscape } from "../components/utils.js";
+import { openPopup, closePopup } from "../components/utils.js";
 
 import {
   submitFormProfile,
   submitFormPlace,
   submitFormAvatar,
-  linkInput,
-  locationInput,
   placeFormElement,
   elementContainer,
   popupPlace,
@@ -34,19 +24,12 @@ import {
   popupAvatar,
 } from "../components/modal.js";
 
-import {
-  getUser,
-  editProfile,
-  cards,
-  config,
-  like,
-  avatarChange,
-} from "../components/api.js";
+import { getUser, cards, deleteCard } from "../components/api.js";
 
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
 const avatarEditButton = document.querySelector(".profile__modify-button");
-const popupButton = document.querySelector(".popup__button");
+const profileButton = document.querySelector(".edit-profile__button");
 const placeButton = document.querySelector(".place__button");
 const avatarButton = document.querySelector(".avatar__button");
 const popups = document.querySelectorAll(".popup");
@@ -55,7 +38,6 @@ const avatarUser = document.querySelector(".profile__avatar");
 function showUser() {
   getUser()
     .then((data) => {
-      console.log(data.avatar);
       profileTitle.textContent = data.name;
       profileSubtitle.textContent = data.about;
       avatarUser.src = data.avatar;
@@ -66,17 +48,58 @@ function showUser() {
 }
 showUser();
 
+function addCard() {
+  cards()
+    .then((data) => {
+      data.forEach(function (element) {
+        const card = createCard(element.link, element.name, element._id);
+
+        if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
+          elementContainer.append(card);
+          const elementCard = document.querySelector(".element");
+          const del = document.createElement("button");
+          const elem = document.querySelectorAll(".element");
+          del.classList.add("element__delete");
+
+          elem.forEach((el) => {
+            el.prepend(del);
+          });
+
+          del.addEventListener("click", function () {
+            elementCard.remove();
+
+            deleteCard(element._id)
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+        } else {
+          elementContainer.append(card);
+        }
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+addCard();
+
 profileEditBbutton.addEventListener("click", function () {
   openPopup(popupProfile);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-  popupButton.classList.remove("popup__button_inactive");
-  popupButton.removeAttribute("disabled");
+  profileButton.textContent = "Сохранить";
+  profileButton.classList.remove("popup__button_inactive");
+  profileButton.removeAttribute("disabled");
 });
 
 profileAddBbutton.addEventListener("click", function () {
   openPopup(popupPlace);
   placeFormElement.reset();
+  placeButton.textContent = "Создать";
   placeButton.classList.add("popup__button_inactive");
   placeButton.setAttribute("disabled", true);
 });
@@ -84,6 +107,9 @@ profileAddBbutton.addEventListener("click", function () {
 avatarEditButton.addEventListener("click", function () {
   openPopup(popupAvatar);
   avatarFormElement.reset();
+  avatarButton.textContent = "Сохранить";
+  avatarButton.classList.add("popup__button_inactive");
+  avatarButton.setAttribute("disabled", true);
 });
 
 popups.forEach(function (popup) {
@@ -102,28 +128,6 @@ formElem.addEventListener("submit", submitFormProfile);
 placeFormElement.addEventListener("submit", submitFormPlace);
 
 avatarFormElement.addEventListener("submit", submitFormAvatar);
-
-function addCard() {
-  cards()
-    .then((data) => {
-      data.forEach(function (element) {
-        const card = createCard(element.link, element.name, element._id);
-
-        elementContainer.append(card);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-addCard();
-
-// function newAvatar() {
-//   avatarChange().then((data) => {
-//     console.log(data);
-//   });
-// }
-// newAvatar();
 
 enableValidation({
   formSelector: ".popup__container",

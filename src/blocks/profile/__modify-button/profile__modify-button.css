@@ -1,8 +1,17 @@
 .profile__modify-button {
-  visibility: hidden;
   width: 120px;
   height: 120px;
-  /* all: unset; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0);
+  all: unset;
+}
+
+.profile__modify-button:hover {
+  width: 120px;
+  height: 120px;
+  all: unset;
   position: absolute;
   top: 0;
   left: 0;
@@ -12,8 +21,4 @@
 
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.profile__modify-button:hover {
-  visibility: visible;
 }

@@ -20,27 +20,21 @@
     <main class="main-content">
       <div class="profile">
         <div class="profile__modify">
-
-          <img
-          class="profile__avatar"
-          src=""
-          alt="Аватар пользователя."
-        />
-        <button class="profile__modify-button" type="button"></button>
-      </div>
+          <img class="profile__avatar" src="" alt="Аватар пользователя." />
+          <button class="profile__modify-button" type="button"></button>
+        </div>
         <div class="profile__info">
           <h1 class="profile__title"></h1>
           <p class="profile__subtitle"></p>
         </div>
         <button class="profile__edit-button" type="button"></button>
         <button class="profile__add-button" type="button"></button>
-      </section>
+      </div>
 
       <div class="elements"></div>
 
       <template class="elements-template">
         <div class="element">
-          <button class="element__delete" type="button"></button>
           <img class="element__image" src="" alt="" />
           <div class="element__group">
             <p class="element__text"></p>
@@ -88,9 +82,10 @@
           <span class="popup__input-error job-input-error"></span>
         </fieldset>
         <fieldset class="popup__handlers">
-          <button type="submit" class="popup__button edit-profile__button">
-            Сохранить
-          </button>
+          <button
+            type="submit"
+            class="popup__button edit-profile__button"
+          ></button>
         </fieldset>
       </form>
     </div>
@@ -124,9 +119,7 @@
           <span class="popup__input-error link-input-error"></span>
         </fieldset>
         <fieldset class="popup__handlers">
-          <button type="submit" class="popup__button place__button">
-            Создать
-          </button>
+          <button type="submit" class="popup__button place__button"></button>
         </fieldset>
       </form>
     </div>
@@ -139,7 +132,6 @@
       </div>
     </div>
 
-
     <div class="popup avatar">
       <form
         class="popup__container avatar__container"
@@ -147,27 +139,20 @@
         novalidate
       >
         <button class="popup__close" type="button"></button>
-        <h2 class="popup__heading avatat__heading">Обновить аватар</h2>
+        <h2 class="popup__heading avatar__heading">Обновить аватар</h2>
         <fieldset class="popup__input-container">
           <input
-          type="url"
+            type="url"
             class="popup__item popup__item_type_avatar"
             required
             id="avatar-input"
-
           />
           <span class="popup__input-error avatar-input-error"></span>
-
         </fieldset>
         <fieldset class="popup__handlers">
-          <button type="submit" class="popup__button avatar__button">
-            Сохранить
-          </button>
+          <button type="submit" class="popup__button avatar__button"></button>
         </fieldset>
       </form>
     </div>
-
-
-
   </body>
 </html>

@@ -1,6 +1,6 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
-import { editProfile, addNewCard, avatarChange } from "./api.js";
+import { editProfile, addNewCard, avatarChange, cards } from "./api.js";
 
 const placeFormElement = document.querySelector(".popup__container-place");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
@@ -19,35 +19,57 @@ const popupProfile = document.querySelector(".edit-profile");
 const avatarFormElement = document.querySelector(".avatar__container");
 const avatarInput = document.querySelector(".popup__item_type_avatar");
 const popupAvatar = document.querySelector(".avatar");
+const profileButton = document.querySelector(".edit-profile__button");
+const placeButton = document.querySelector(".place__button");
+const avatarButton = document.querySelector(".avatar__button");
 
 function submitFormProfile(evt) {
   evt.preventDefault();
+  renderLoading(profileButton, true);
   profileTitle.textContent = `${nameInput.value}`;
   profileSubtitle.textContent = `${jobInput.value}`;
   editProfile({
     name: nameInput.value,
     about: jobInput.value,
   });
+
   closePopup(popupProfile);
 }
 
 function submitFormPlace(evt) {
   evt.preventDefault();
+  renderLoading(placeButton, true);
   const card = createCard(linkInput.value, locationInput.value);
   elementContainer.prepend(card);
+
   addNewCard({
     name: locationInput.value,
     link: linkInput.value,
   });
+  cards().then(() => {
+    const del = document.createElement("button");
+    const elem = document.querySelector(".element");
+    del.classList.add("element__delete");
+    elem.prepend(del);
+  });
+
   closePopup(popupPlace);
 }
 
 function submitFormAvatar(evt) {
   evt.preventDefault();
+  renderLoading(avatarButton, true);
   avatarChange({
     avatar: avatarInput.value,
   });
+
   closePopup(popupAvatar);
+}
+
+function renderLoading(button, isLoading) {
+  if (isLoading) {
+    button.textContent = "Сохранение...";
+  }
 }
 
 export {

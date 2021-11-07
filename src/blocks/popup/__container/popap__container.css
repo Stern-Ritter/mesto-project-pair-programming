@@ -4,7 +4,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 430px;
-  min-height: 330px;
+  max-height: 330px;
   background: #fff;
   border-radius: 10px;
   color: #000;
@@ -15,20 +15,18 @@
 @media (max-width: 700px) {
   .popup__container {
     width: 90%;
-    min-height: 322px;
+    max-height: 322px;
   }
 }
 
 @media (max-width: 500px) {
   .popup__container {
     width: 75%;
-    min-height: 322px;
   }
 }
 
 @media (max-width: 400px) {
   .popup__container {
     width: 282px;
-    min-height: 322px;
   }
 }

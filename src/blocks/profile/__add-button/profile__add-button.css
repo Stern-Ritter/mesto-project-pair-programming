@@ -30,7 +30,7 @@
   }
 }
 
-@media (max-width: 810px) {
+@media (max-width: 990px) {
   .profile__add-button {
     background: url(../../../images/Add_Button_L.svg);
     background-repeat: no-repeat;
