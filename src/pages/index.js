@@ -48,6 +48,45 @@ function showUser() {
 }
 showUser();
 
+function addCard() {
+  cards()
+    .then((data) => {
+      data.forEach(function (element) {
+        const card = createCard(element.link, element.name, element._id);
+
+        if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
+          elementContainer.append(card);
+          const elementCard = document.querySelector(".element");
+          const del = document.createElement("button");
+          const elem = document.querySelectorAll(".element");
+          del.classList.add("element__delete");
+
+          elem.forEach((el) => {
+            el.prepend(del);
+          });
+
+          del.addEventListener("click", function () {
+            elementCard.remove();
+
+            deleteCard(element._id)
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+        } else {
+          elementContainer.append(card);
+        }
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+addCard();
+
 profileEditBbutton.addEventListener("click", function () {
   openPopup(popupProfile);
   nameInput.value = profileTitle.textContent;
@@ -89,50 +128,6 @@ formElem.addEventListener("submit", submitFormProfile);
 placeFormElement.addEventListener("submit", submitFormPlace);
 
 avatarFormElement.addEventListener("submit", submitFormAvatar);
-
-function addCard() {
-  cards()
-    .then((data) => {
-      const cardTemplate = document.querySelector(".elements-template").content;
-      const cardElement = cardTemplate
-        .querySelector(".element")
-        .cloneNode(true);
-
-      data.forEach(function (element) {
-        const card = createCard(element.link, element.name, element._id);
-
-        if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
-          elementContainer.append(card);
-          const elementCard = document.querySelector(".element");
-          const del = document.createElement("button");
-          const elem = document.querySelectorAll(".element");
-          del.classList.add("element__delete");
-
-          elem.forEach((el) => {
-            el.prepend(del);
-          });
-
-          del.addEventListener("click", function () {
-            elementCard.remove();
-
-            deleteCard(element._id)
-              .then((data) => {
-                console.log(data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          });
-        } else {
-          elementContainer.append(card);
-        }
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-addCard();
 
 enableValidation({
   formSelector: ".popup__container",

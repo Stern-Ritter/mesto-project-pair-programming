@@ -1,13 +1,11 @@
 .profile {
-  max-width: 880px;
-  margin: 40px auto 0;
+  margin: 40px 15.6% 0;
   display: flex;
   flex-wrap: wrap;
 }
 
 @media (max-width: 1100) {
   .profile {
-    max-width: 600px;
     margin-left: 10%;
     margin-right: 10%;
   }
