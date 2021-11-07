@@ -1,12 +1,6 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
-import {
-  editProfile,
-  addNewCard,
-  avatarChange,
-  cards,
-  deleteCard,
-} from "./api.js";
+import { editProfile, addNewCard, avatarChange, cards } from "./api.js";
 
 const placeFormElement = document.querySelector(".popup__container-place");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
@@ -25,11 +19,9 @@ const popupProfile = document.querySelector(".edit-profile");
 const avatarFormElement = document.querySelector(".avatar__container");
 const avatarInput = document.querySelector(".popup__item_type_avatar");
 const popupAvatar = document.querySelector(".avatar");
-
 const profileButton = document.querySelector(".edit-profile__button");
 const placeButton = document.querySelector(".place__button");
 const avatarButton = document.querySelector(".avatar__button");
-const popupButton = document.querySelector(".popup__button");
 
 function submitFormProfile(evt) {
   evt.preventDefault();
@@ -44,46 +36,22 @@ function submitFormProfile(evt) {
   closePopup(popupProfile);
 }
 
-function submitFormPlace(evt, cardId) {
+function submitFormPlace(evt) {
   evt.preventDefault();
   renderLoading(placeButton, true);
   const card = createCard(linkInput.value, locationInput.value);
   elementContainer.prepend(card);
-  // const deleteButton = document.querySelector(".element__delete");
-  // deleteButton.classList.remove("element__delete-none");
+
   addNewCard({
     name: locationInput.value,
     link: linkInput.value,
   });
-  cards().then((res) => {
-    // console.log(res);
-    res.forEach((element) => {
-      const del = document.createElement("button");
-      const elem = document.querySelector(".element");
-
-      del.classList.add("element__delete");
-      console.log(typeof del);
-      // const result = Object.values(del).map((v) => Object.values(v));
-
-      // console.log(result);
-
-      elem.prepend(del);
-    });
+  cards().then(() => {
+    const del = document.createElement("button");
+    const elem = document.querySelector(".element");
+    del.classList.add("element__delete");
+    elem.prepend(del);
   });
-  // const cardTemplate = document.querySelector(".elements-template").content;
-  // const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
-  // const deleteButton = document.querySelector(".element__delete");
-  // // deleteButton.classList.remove("element__delete-none");
-  // deleteButton.addEventListener("click", function () {
-  //   cardElement.remove();
-  //   deleteCard()
-  //     .then((data) => {
-  //       // console.log(data.id);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // });
 
   closePopup(popupPlace);
 }
