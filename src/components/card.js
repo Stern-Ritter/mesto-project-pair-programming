@@ -1,4 +1,4 @@
-import { cards, like, likeDelete } from "./api.js";
+import { like, likeDelete } from "./api.js";
 import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
@@ -39,7 +39,6 @@ function createCard(itemImage, itemLocation, itemid) {
   elementImage.addEventListener("click", function () {
     openPopup(popupImage);
     const imageContainer = document.querySelector(".image__container");
-
     imageContainer.querySelector(".image__src").src = itemImage;
     imageContainer.querySelector(".image__place").textContent = itemLocation;
   });

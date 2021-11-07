@@ -1,3 +1,9 @@
 .profile__modify {
   position: relative;
 }
+
+@media (max-width: 630px) {
+  .profile__modify {
+    margin: auto;
+  }
+}
