@@ -56,17 +56,24 @@ function addCard() {
 
         if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
           elementContainer.append(card);
-          const elementCard = document.querySelector(".element");
+          const elementCard = document.querySelectorAll(".element");
           const del = document.createElement("button");
           const elem = document.querySelectorAll(".element");
           del.classList.add("element__delete");
-
+          console.log(del);
           elem.forEach((el) => {
             el.prepend(del);
           });
 
+          console.log(elementCard);
+
           del.addEventListener("click", function () {
-            elementCard.remove();
+            elementCard.forEach((el) => {
+              console.log(el);
+              el.remove();
+            });
+
+            // console.log(elementCard);
 
             deleteCard(element._id)
               .then((data) => {
@@ -81,6 +88,7 @@ function addCard() {
         }
       });
     })
+
     .catch((err) => {
       console.log(err);
     });
