@@ -1,6 +1,12 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
-import { editProfile, addNewCard, avatarChange, cards } from "./api.js";
+import {
+  editProfile,
+  addNewCard,
+  avatarChange,
+  deleteCard,
+  cards,
+} from "./api.js";
 
 const placeFormElement = document.querySelector(".popup__container-place");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
@@ -38,7 +44,7 @@ function submitFormProfile(evt) {
 
 function submitFormPlace(evt) {
   evt.preventDefault();
-  renderLoading(placeButton, true);
+
   const card = createCard(linkInput.value, locationInput.value);
   elementContainer.prepend(card);
 
@@ -46,14 +52,20 @@ function submitFormPlace(evt) {
     name: locationInput.value,
     link: linkInput.value,
   });
-  cards().then(() => {
-    const del = document.createElement("button");
-    const elem = document.querySelector(".element");
-    del.classList.add("element__delete");
-    elem.prepend(del);
-  });
-
-  closePopup(popupPlace);
+  cards()
+    .then(() => {
+      const del = document.createElement("button");
+      const elem = document.querySelector(".element");
+      del.classList.add("element__delete");
+      elem.prepend(del);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
+    .finally(() => {
+      renderLoading(placeButton, true);
+      closePopup(popupPlace);
+    });
 }
 
 function submitFormAvatar(evt) {

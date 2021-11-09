@@ -1,4 +1,4 @@
-import { like, likeDelete } from "./api.js";
+import { like, likeDelete, cards } from "./api.js";
 import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
@@ -42,7 +42,30 @@ function createCard(itemImage, itemLocation, itemid) {
     imageContainer.querySelector(".image__src").src = itemImage;
     imageContainer.querySelector(".image__place").textContent = itemLocation;
   });
+
   return cardElement;
 }
+
+// const cardTemplate = document.querySelector(".elements-template").content;
+// const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
+
+// const numberLike = document.querySelectorAll(".element__number-like");
+// console.log(numberLike);
+
+// function likeView() {
+//   cards().then((data) => {
+//     data.forEach(function (element) {
+//       console.log(numberLike);
+//       // console.log(numberLike.textContent);
+//       // console.log(element.likes.length);
+
+//       numberLike.forEach((el) => {
+//         console.log(el);
+//         el.textContent = element.likes.length;
+//       });
+//     });
+//   });
+// }
+// likeView();
 
 export { createCard, popupImage };
