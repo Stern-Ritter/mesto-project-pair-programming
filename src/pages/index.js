@@ -48,7 +48,7 @@ function showUser() {
 }
 showUser();
 
-function addCard() {
+export function addCard() {
   cards()
     .then((data) => {
       data.forEach(function (element) {
@@ -56,7 +56,7 @@ function addCard() {
 
         if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
           elementContainer.append(card);
-          const elementCard = document.querySelector(".element");
+
           const del = document.createElement("button");
           const elem = document.querySelectorAll(".element");
           del.classList.add("element__delete");
@@ -66,8 +66,10 @@ function addCard() {
           });
 
           del.addEventListener("click", function () {
-            elementCard.remove();
-
+            elem.forEach(() => {
+              const item = del.closest(".element");
+              item.remove(item);
+            });
             deleteCard(element._id)
               .then((data) => {
                 console.log(data);
@@ -81,6 +83,7 @@ function addCard() {
         }
       });
     })
+
     .catch((err) => {
       console.log(err);
     });
