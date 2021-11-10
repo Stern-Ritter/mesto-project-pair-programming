@@ -60,19 +60,13 @@ export function addCard() {
           const del = document.createElement("button");
           const elem = document.querySelectorAll(".element");
           del.classList.add("element__delete");
-          // console.log(elem);
-
-          // console.log(elem);
-          // console.log(element);
 
           elem.forEach((el) => {
-            // console.log(el);
             el.prepend(del);
           });
 
           del.addEventListener("click", function () {
             elem.forEach(() => {
-              // console.log(e);
               const item = del.closest(".element");
               item.remove(item);
             });

@@ -6,6 +6,7 @@ import {
   avatarChange,
   deleteCard,
   cards,
+  getUser,
 } from "./api.js";
 
 import { addCard } from "../pages/index.js";
@@ -44,7 +45,7 @@ function submitFormProfile(evt) {
   closePopup(popupProfile);
 }
 
-function submitFormPlace(evt, itemid) {
+function submitFormPlace(evt) {
   evt.preventDefault();
 
   const card = createCard(linkInput.value, locationInput.value);
@@ -53,22 +54,21 @@ function submitFormPlace(evt, itemid) {
   addNewCard({
     name: locationInput.value,
     link: linkInput.value,
+    cardId: card._id,
   });
 
   const cardTemplate = document.querySelector(".elements-template").content;
   const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
-  const elementImage = cardElement.querySelector(".element__image");
   const likeButton = cardElement.querySelector(".element__like");
   const numberLike = cardElement.querySelector(".element__number-like");
-  // elementImage.src = itemImage;
-  // cardElement.querySelector(".element__text").textContent = itemLocation;
-  // elementImage.alt = `Иллюстрация места ${itemLocation}`;
+
+  console.log(likeButton);
 
   likeButton.addEventListener("click", function (evt) {
     if (!evt.target.classList.contains("element__like_active")) {
       evt.target.classList.add("element__like_active");
 
-      like(itemid)
+      like(data._id)
         .then((data) => {
           numberLike.textContent = data.likes.length;
         })
@@ -77,7 +77,7 @@ function submitFormPlace(evt, itemid) {
         });
     } else {
       evt.target.classList.remove("element__like_active");
-      likeDelete(itemid)
+      likeDelete(cardId)
         .then((data) => {
           numberLike.textContent = data.likes.length;
         })
@@ -88,25 +88,34 @@ function submitFormPlace(evt, itemid) {
   });
 
   cards()
-    .then(() => {
+    .then((data) => {
+      console.log(data);
       const del = document.createElement("button");
       const elem = document.querySelector(".element");
+      const element = document.querySelectorAll(".element");
       del.classList.add("element__delete");
       elem.prepend(del);
 
       console.log(del);
       console.log(elem);
+      data.forEach((el) => {
+        // console.log(el._id);
 
-      del.addEventListener("click", function () {
-        // console.log(elementCard);
-        elem.remove();
-        deleteCard()
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((err) => {
-            console.log(err);
+        del.addEventListener("click", function () {
+          // console.log(elementCard);
+          element.forEach(() => {
+            const item = del.closest(".element");
+
+            item.remove();
+            deleteCard(el._id)
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           });
+        });
       });
     })
     .catch((err) => {

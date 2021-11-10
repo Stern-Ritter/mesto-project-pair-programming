@@ -19,10 +19,6 @@ function createCard(itemImage, itemLocation, itemid) {
       // console.log(numberLike.textContent);
       // console.log(element.likes.length);
       numberLike.textContent = element.likes.length;
-      // numberLike.forEach((el) => {
-      //   console.log(el);
-      //   el.textContent = element.likes.length;
-      // });
     });
   });
 
