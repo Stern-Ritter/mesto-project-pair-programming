@@ -52,36 +52,17 @@ function addCard() {
   cards()
     .then((data) => {
       data.forEach(function (element) {
-        const card = createCard(element.link, element.name, element._id);
+        const card = createCard(
+          {
+            link: element.link,
+            name: element.name,
+            id: element.owner._id,
+            likes: element.likes.length,
+          },
+          element._id
+        );
 
-        if (element.owner._id == "e5fcdabd0c334fb91ee2be3d") {
-          elementContainer.append(card);
-
-          const del = document.createElement("button");
-          const elem = document.querySelectorAll(".element");
-          del.classList.add("element__delete");
-
-          elem.forEach((el) => {
-            el.prepend(del);
-          });
-
-          del.addEventListener("click", function () {
-            elem.forEach(() => {
-              const item = del.closest(".element");
-              item.remove(item);
-            });
-
-            deleteCard(element._id)
-              .then((data) => {
-                console.log(data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          });
-        } else {
-          elementContainer.append(card);
-        }
+        elementContainer.append(card);
       });
     })
 
@@ -141,3 +122,35 @@ enableValidation({
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_active",
 });
+
+export { addCard };
+
+// const likeN = document.querySelectorAll(".element__number-like");
+// likeN.forEach((el) => {
+//   console.log(el);
+//   console.log(element.likes);
+//   el.textContent = element.likes.length;
+// });
+
+// const del = document.createElement("button");
+//           const elem = document.querySelectorAll(".element");
+//           del.classList.add("element__delete");
+
+//           elem.forEach((el) => {
+//             el.prepend(del);
+//           });
+
+//           del.addEventListener("click", function () {
+//             elem.forEach(() => {
+//               const item = del.closest(".element");
+//               item.remove(item);
+//             });
+
+//             deleteCard(element._id)
+//               .then((data) => {
+//                 console.log(data);
+//               })
+//               .catch((err) => {
+//                 console.log(err);
+//               });
+//           });

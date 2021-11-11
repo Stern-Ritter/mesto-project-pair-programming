@@ -43,7 +43,7 @@ function cards() {
 }
 
 function addNewCard(card) {
-  fetch(`${config.baseUrl}/cards`, {
+  return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
     "Content-Type": "application/json",
@@ -51,8 +51,12 @@ function addNewCard(card) {
     body: JSON.stringify({
       name: card.name,
       link: card.link,
-      _id: card._id,
     }),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   });
 }
 

@@ -12,6 +12,7 @@
   right: 15px;
   cursor: pointer;
   transition: 1s;
+  display: none;
 }
 
 .element__delete:hover {
