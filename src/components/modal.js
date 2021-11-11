@@ -51,80 +51,36 @@ function submitFormProfile(evt) {
 function submitFormPlace(evt) {
   evt.preventDefault();
 
-  cards()
-    .then((data) => {
-      const card = createCard(linkInput.value, locationInput.value);
-
-      console.log(data[_id]);
-      elementContainer.prepend(card);
-      console.log(data);
-      const del = document.createElement("button");
-      const elem = document.querySelector(".element");
-      const element = document.querySelectorAll(".element");
-      del.classList.add("element__delete");
-      elem.prepend(del);
-
-      // console.log(del);
-      // console.log(elem);
-      data.forEach((el) => {
-        // console.log(el._id);
-
-        const likeButton = document.querySelectorAll(".element__like");
-        const numberLike = document.querySelectorAll(".element__number-like");
-
-        del.addEventListener("click", function () {
-          element.forEach(() => {
-            deleteCard(itemId)
-              .then((data) => {
-                console.log(data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-            const item = del.closest(".element");
-            item.remove(item);
-          });
-        });
-
-        // console.log(likeButton);
-        // likeButton.forEach((element) => {
-        //   element.addEventListener("click", function (evt) {
-        //     if (!evt.target.classList.contains("element__like_active")) {
-        //       evt.target.classList.add("element__like_active");
-        //       // console.log(el._id);
-        //       like(el._id)
-        //         .then((data) => {
-        //           // console.log(data);
-        //           numberLike.textContent = data.likes.length;
-        //           // console.log(data._id);
-        //         })
-        //         .catch((err) => {
-        //           console.log(err.message);
-        //         });
-        //     } else {
-        //       evt.target.classList.remove("element__like_active");
-        //       likeDelete(el._id)
-        //         .then((data) => {
-        //           numberLike.textContent = data.likes.length;
-        //         })
-        //         .catch((err) => {
-        //           console.log(err.message);
-        //         });
-        //     }
-        //   });
-        // });
-      });
-    })
-    .catch((err) => {
-      console.log(err.message);
-    })
-    .finally(() => {
-      renderLoading(placeButton, true);
-    });
-
   addNewCard({
     name: locationInput.value,
     link: linkInput.value,
+  }).then((data) => {
+    console.log(data);
+
+    const card = createCard(
+      {
+        link: linkInput.value,
+        name: locationInput.value,
+      },
+      data._id
+    );
+    elementContainer.prepend(card);
+
+    const deleteButton = document.querySelector(".element__delete");
+    const element = document.querySelector(".element");
+    console.log(element);
+    deleteButton.classList.add("element__delete_visible");
+
+    // deleteButton.addEventListener("click", function () {
+    //   deleteCard(data._id)
+    //     .then((data) => {
+    //       console.log(data);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    //   element.remove();
+    // });
   });
 
   closePopup(popupPlace);
@@ -166,3 +122,67 @@ export {
   avatarFormElement,
   popupAvatar,
 };
+
+// .then((data) => {
+//   const del = document.createElement("button");
+//   const elem = document.querySelector(".element");
+//   const element = document.querySelectorAll(".element");
+//   del.classList.add("element__delete");
+//   elem.prepend(del);
+//   console.log(del);
+//   // console.log(del);
+//   // console.log(elem);
+//   data.forEach((el) => {
+//     const likeButton = document.querySelectorAll(".element__like");
+//     const numberLike = document.querySelectorAll(".element__number-like");
+
+//     // del.addEventListener("click", function () {
+//     //   element.forEach(() => {
+//     //     deleteCard(card._id)
+//     //       .then((data) => {
+//     //         console.log(data);
+//     //       })
+//     //       .catch((err) => {
+//     //         console.log(err);
+//     //       });
+//     //     const item = del.closest(".element");
+//     //     console.log(item);
+//     //     // item.remove(item);
+//     //   });
+//     // });
+
+//     // console.log(likeButton);
+//     // likeButton.forEach((element) => {
+//     //   element.addEventListener("click", function (evt) {
+//     //     if (!evt.target.classList.contains("element__like_active")) {
+//     //       evt.target.classList.add("element__like_active");
+//     //       // console.log(el._id);
+//     //       like(el._id)
+//     //         .then((data) => {
+//     //           // console.log(data);
+//     //           numberLike.textContent = data.likes.length;
+//     //           // console.log(data._id);
+//     //         })
+//     //         .catch((err) => {
+//     //           console.log(err.message);
+//     //         });
+//     //     } else {
+//     //       evt.target.classList.remove("element__like_active");
+//     //       likeDelete(el._id)
+//     //         .then((data) => {
+//     //           numberLike.textContent = data.likes.length;
+//     //         })
+//     //         .catch((err) => {
+//     //           console.log(err.message);
+//     //         });
+//     //     }
+//     //   });
+//     // });
+//   });
+// })
+// .catch((err) => {
+//   console.log(err.message);
+// })
+// .finally(() => {
+//   renderLoading(placeButton, true);
+// });
