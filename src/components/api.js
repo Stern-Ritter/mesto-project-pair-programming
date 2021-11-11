@@ -18,7 +18,7 @@ function getUser() {
 }
 
 function editProfile(edit) {
-  fetch(`${config.baseUrl}/users/me`, {
+  return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
     "Content-Type": "application/json",
@@ -28,6 +28,11 @@ function editProfile(edit) {
       about: edit.about,
       avatar: edit.avatar,
     }),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   });
 }
 
@@ -107,6 +112,11 @@ function avatarChange(me) {
     body: JSON.stringify({
       avatar: me.avatar,
     }),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   });
 }
 

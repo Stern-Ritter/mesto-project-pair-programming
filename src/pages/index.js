@@ -24,7 +24,7 @@ import {
   popupAvatar,
 } from "../components/modal.js";
 
-import { getUser, cards, deleteCard } from "../components/api.js";
+import { getUser, cards } from "../components/api.js";
 
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
@@ -61,7 +61,6 @@ function addCard() {
           },
           element._id
         );
-
         elementContainer.append(card);
       });
     })
@@ -122,35 +121,3 @@ enableValidation({
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_active",
 });
-
-export { addCard };
-
-// const likeN = document.querySelectorAll(".element__number-like");
-// likeN.forEach((el) => {
-//   console.log(el);
-//   console.log(element.likes);
-//   el.textContent = element.likes.length;
-// });
-
-// const del = document.createElement("button");
-//           const elem = document.querySelectorAll(".element");
-//           del.classList.add("element__delete");
-
-//           elem.forEach((el) => {
-//             el.prepend(del);
-//           });
-
-//           del.addEventListener("click", function () {
-//             elem.forEach(() => {
-//               const item = del.closest(".element");
-//               item.remove(item);
-//             });
-
-//             deleteCard(element._id)
-//               .then((data) => {
-//                 console.log(data);
-//               })
-//               .catch((err) => {
-//                 console.log(err);
-//               });
-//           });
