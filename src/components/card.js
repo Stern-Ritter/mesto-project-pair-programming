@@ -16,8 +16,8 @@ function createCard(itemImage, itemLocation, itemid) {
 
   cards().then((data) => {
     data.forEach(function (element) {
-      // console.log(numberLike.textContent);
-      // console.log(element.likes.length);
+      // console.log(numberLike);
+      // console.log(typeof element);
       numberLike.textContent = element.likes.length;
     });
   });

@@ -48,7 +48,7 @@ function showUser() {
 }
 showUser();
 
-export function addCard() {
+function addCard() {
   cards()
     .then((data) => {
       data.forEach(function (element) {
@@ -70,6 +70,7 @@ export function addCard() {
               const item = del.closest(".element");
               item.remove(item);
             });
+
             deleteCard(element._id)
               .then((data) => {
                 console.log(data);

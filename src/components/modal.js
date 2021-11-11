@@ -7,6 +7,8 @@ import {
   deleteCard,
   cards,
   getUser,
+  like,
+  likeDelete,
 } from "./api.js";
 
 import { addCard } from "../pages/index.js";
@@ -31,6 +33,7 @@ const popupAvatar = document.querySelector(".avatar");
 const profileButton = document.querySelector(".edit-profile__button");
 const placeButton = document.querySelector(".place__button");
 const avatarButton = document.querySelector(".avatar__button");
+const profileAvatar = document.querySelector(".profile__avatar");
 
 function submitFormProfile(evt) {
   evt.preventDefault();
@@ -48,47 +51,12 @@ function submitFormProfile(evt) {
 function submitFormPlace(evt) {
   evt.preventDefault();
 
-  const card = createCard(linkInput.value, locationInput.value);
-  elementContainer.prepend(card);
-
-  addNewCard({
-    name: locationInput.value,
-    link: linkInput.value,
-    cardId: card._id,
-  });
-
-  const cardTemplate = document.querySelector(".elements-template").content;
-  const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
-  const likeButton = cardElement.querySelector(".element__like");
-  const numberLike = cardElement.querySelector(".element__number-like");
-
-  console.log(likeButton);
-
-  likeButton.addEventListener("click", function (evt) {
-    if (!evt.target.classList.contains("element__like_active")) {
-      evt.target.classList.add("element__like_active");
-
-      like(data._id)
-        .then((data) => {
-          numberLike.textContent = data.likes.length;
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    } else {
-      evt.target.classList.remove("element__like_active");
-      likeDelete(cardId)
-        .then((data) => {
-          numberLike.textContent = data.likes.length;
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
-  });
-
   cards()
     .then((data) => {
+      const card = createCard(linkInput.value, locationInput.value);
+
+      console.log(data[_id]);
+      elementContainer.prepend(card);
       console.log(data);
       const del = document.createElement("button");
       const elem = document.querySelector(".element");
@@ -96,26 +64,55 @@ function submitFormPlace(evt) {
       del.classList.add("element__delete");
       elem.prepend(del);
 
-      console.log(del);
-      console.log(elem);
+      // console.log(del);
+      // console.log(elem);
       data.forEach((el) => {
         // console.log(el._id);
 
-        del.addEventListener("click", function () {
-          // console.log(elementCard);
-          element.forEach(() => {
-            const item = del.closest(".element");
+        const likeButton = document.querySelectorAll(".element__like");
+        const numberLike = document.querySelectorAll(".element__number-like");
 
-            item.remove();
-            deleteCard(el._id)
+        del.addEventListener("click", function () {
+          element.forEach(() => {
+            deleteCard(itemId)
               .then((data) => {
                 console.log(data);
               })
               .catch((err) => {
                 console.log(err);
               });
+            const item = del.closest(".element");
+            item.remove(item);
           });
         });
+
+        // console.log(likeButton);
+        // likeButton.forEach((element) => {
+        //   element.addEventListener("click", function (evt) {
+        //     if (!evt.target.classList.contains("element__like_active")) {
+        //       evt.target.classList.add("element__like_active");
+        //       // console.log(el._id);
+        //       like(el._id)
+        //         .then((data) => {
+        //           // console.log(data);
+        //           numberLike.textContent = data.likes.length;
+        //           // console.log(data._id);
+        //         })
+        //         .catch((err) => {
+        //           console.log(err.message);
+        //         });
+        //     } else {
+        //       evt.target.classList.remove("element__like_active");
+        //       likeDelete(el._id)
+        //         .then((data) => {
+        //           numberLike.textContent = data.likes.length;
+        //         })
+        //         .catch((err) => {
+        //           console.log(err.message);
+        //         });
+        //     }
+        //   });
+        // });
       });
     })
     .catch((err) => {
@@ -123,17 +120,24 @@ function submitFormPlace(evt) {
     })
     .finally(() => {
       renderLoading(placeButton, true);
-      closePopup(popupPlace);
     });
+
+  addNewCard({
+    name: locationInput.value,
+    link: linkInput.value,
+  });
+
+  closePopup(popupPlace);
 }
 
 function submitFormAvatar(evt) {
   evt.preventDefault();
+
   renderLoading(avatarButton, true);
   avatarChange({
     avatar: avatarInput.value,
   });
-
+  profileAvatar.src = avatarInput.value;
   closePopup(popupAvatar);
 }
 
