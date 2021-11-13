@@ -24,7 +24,9 @@ import {
   popupAvatar,
 } from "../components/modal.js";
 
-import { getUser, cards } from "../components/api.js";
+import { getUser, getCards } from "../components/api.js";
+
+export let userId;
 
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
@@ -35,47 +37,78 @@ const avatarButton = document.querySelector(".avatar__button");
 const popups = document.querySelectorAll(".popup");
 const avatarUser = document.querySelector(".profile__avatar");
 
-function showUser() {
-  getUser()
-    .then((data) => {
-      profileTitle.textContent = data.name;
-      profileSubtitle.textContent = data.about;
-      avatarUser.src = data.avatar;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-showUser();
+Promise.all([getUser(), getCards()])
+  .then(([user, cards]) => {
+    profileTitle.textContent = user.name;
+    profileSubtitle.textContent = user.about;
+    avatarUser.src = user.avatar;
+    userId = user._id;
 
-function addCard() {
-  cards()
-    .then((data) => {
-      data.forEach(function (element) {
-        const card = createCard(
-          {
-            link: element.link,
-            name: element.name,
-            id: element.owner._id,
-            likes: element.likes.length,
-          },
-          element._id
-        );
-        elementContainer.append(card);
-      });
-    })
+    cards.forEach(function (element) {
+      const card = createCard(
+        {
+          link: element.link,
+          name: element.name,
+          _id: element._id,
+          likes: element.likes.length,
+          id: element.owner._id,
+        },
+        userId
+      );
 
-    .catch((err) => {
-      console.log(err);
+      elementContainer.append(card);
     });
-}
-addCard();
+  })
+
+  .catch((err) => {
+    console.log(err);
+  });
+
+// function showUser() {
+//   getUser()
+//     .then((data) => {
+//       // console.log(data);
+//       // console.log(data._id);
+//       profileTitle.textContent = data.name;
+//       profileSubtitle.textContent = data.about;
+//       avatarUser.src = data.avatar;
+//       userId = data._id;
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }
+// showUser();
+
+// function addCard() {
+//   getCards()
+//     .then((data) => {
+//       data.forEach(function (element) {
+//         const card = createCard(
+//           {
+//             link: element.link,
+//             name: element.name,
+//             _id: element._id,
+//             likes: element.likes.length,
+//             id: element.owner._id,
+//           },
+//           userId
+//         );
+
+//         elementContainer.append(card);
+//       });
+//     })
+
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }
+// addCard();
 
 profileEditBbutton.addEventListener("click", function () {
   openPopup(popupProfile);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-  profileButton.textContent = "Сохранить";
   profileButton.classList.remove("popup__button_inactive");
   profileButton.removeAttribute("disabled");
 });
@@ -83,7 +116,6 @@ profileEditBbutton.addEventListener("click", function () {
 profileAddBbutton.addEventListener("click", function () {
   openPopup(popupPlace);
   placeFormElement.reset();
-  placeButton.textContent = "Создать";
   placeButton.classList.add("popup__button_inactive");
   placeButton.setAttribute("disabled", true);
 });
@@ -91,7 +123,6 @@ profileAddBbutton.addEventListener("click", function () {
 avatarEditButton.addEventListener("click", function () {
   openPopup(popupAvatar);
   avatarFormElement.reset();
-  avatarButton.textContent = "Сохранить";
   avatarButton.classList.add("popup__button_inactive");
   avatarButton.setAttribute("disabled", true);
 });

@@ -1,6 +1,7 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
-import { editProfile, addNewCard, avatarChange } from "./api.js";
+import { editProfile, addNewCard, changeAvatar } from "./api.js";
+import { userId } from "../pages/index.js";
 
 const placeFormElement = document.querySelector(".popup__container-place");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
@@ -26,25 +27,27 @@ const profileAvatar = document.querySelector(".profile__avatar");
 
 function submitFormProfile(evt) {
   evt.preventDefault();
-
-  profileTitle.textContent = `${nameInput.value}`;
-  profileSubtitle.textContent = `${jobInput.value}`;
+  renderLoading(profileButton, true);
   editProfile({
     name: nameInput.value,
     about: jobInput.value,
   })
+    .then(() => {
+      profileTitle.textContent = `${nameInput.value}`;
+      profileSubtitle.textContent = `${jobInput.value}`;
+      closePopup(popupProfile);
+    })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(profileButton, true);
-      closePopup(popupProfile);
+      profileButton.textContent = "Сохранить";
     });
 }
 
 function submitFormPlace(evt) {
   evt.preventDefault();
-
+  renderLoading(placeButton, true);
   addNewCard({
     name: locationInput.value,
     link: linkInput.value,
@@ -54,38 +57,39 @@ function submitFormPlace(evt) {
         {
           link: linkInput.value,
           name: locationInput.value,
+          id: data.owner._id,
+          _id: data._id,
+          likes: data.likes.length,
         },
-        data._id
+        userId
       );
-      elementContainer.prepend(card);
 
-      const deleteButton = document.querySelector(".element__delete");
-      const numberLike = document.querySelector(".element__number-like");
-      deleteButton.classList.add("element__delete_visible");
-      numberLike.textContent = data.likes.length;
+      elementContainer.prepend(card);
+      closePopup(popupPlace);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(placeButton, true);
-      closePopup(popupPlace);
+      placeButton.textContent = "Создать";
     });
 }
 
 function submitFormAvatar(evt) {
   evt.preventDefault();
-
-  avatarChange({
+  renderLoading(avatarButton, true);
+  changeAvatar({
     avatar: avatarInput.value,
   })
+    .then(() => {
+      profileAvatar.src = avatarInput.value;
+      closePopup(popupAvatar);
+    })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(avatarButton, true);
-      profileAvatar.src = avatarInput.value;
-      closePopup(popupAvatar);
+      avatarButton.textContent = "Сохранить";
     });
 }
 
