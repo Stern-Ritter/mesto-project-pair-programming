@@ -1,9 +1,11 @@
-import { like, likeDelete, deleteCard } from "./api.js";
+import { putLike, deleteLike, deleteCard } from "./api.js";
 import { openPopup } from "./utils.js";
 
 const popupImage = document.querySelector(".image");
+const imagePic = popupImage.querySelector(".image__src");
+const imageText = popupImage.querySelector(".image__place");
 
-function createCard(element, itemid) {
+function createCard(element, user) {
   const cardTemplate = document.querySelector(".elements-template").content;
   const cardElement = cardTemplate.querySelector(".element").cloneNode(true);
   const elementImage = cardElement.querySelector(".element__image");
@@ -13,19 +15,21 @@ function createCard(element, itemid) {
   cardElement.querySelector(".element__text").textContent = element.name;
   elementImage.alt = `Иллюстрация места ${element.name}`;
   numberLike.textContent = element.likes;
+  // userId = element.id;
 
+  console.log(user);
   const deleteButton = cardElement.querySelector(".element__delete");
-  const myId = "e5fcdabd0c334fb91ee2be3d";
-  if (element.id == myId) {
+
+  if (element.id === user) {
     deleteButton.classList.add("element__delete_visible");
   } else {
     deleteButton.classList.remove("element__delete_visible");
   }
 
   deleteButton.addEventListener("click", function () {
-    cardElement.remove();
-    deleteCard(itemid)
+    deleteCard(element._id)
       .then((data) => {
+        cardElement.remove();
         console.log(data);
       })
       .catch((err) => {
@@ -35,18 +39,18 @@ function createCard(element, itemid) {
 
   likeButton.addEventListener("click", function (evt) {
     if (!evt.target.classList.contains("element__like_active")) {
-      evt.target.classList.add("element__like_active");
-      like(itemid)
+      putLike(element._id)
         .then((data) => {
+          evt.target.classList.add("element__like_active");
           numberLike.textContent = data.likes.length;
         })
         .catch((err) => {
           console.log(err.message);
         });
     } else {
-      evt.target.classList.remove("element__like_active");
-      likeDelete(itemid)
+      deleteLike(element._id)
         .then((data) => {
+          evt.target.classList.remove("element__like_active");
           numberLike.textContent = data.likes.length;
         })
         .catch((err) => {
@@ -57,9 +61,9 @@ function createCard(element, itemid) {
 
   elementImage.addEventListener("click", function () {
     openPopup(popupImage);
-    const imageContainer = document.querySelector(".image__container");
-    imageContainer.querySelector(".image__src").src = element.link;
-    imageContainer.querySelector(".image__place").textContent = element.name;
+    imagePic.src = element.link;
+    imagePic.alt = `Иллюстрация места ${element.name}`;
+    imageText.textContent = element.name;
   });
 
   return cardElement;
