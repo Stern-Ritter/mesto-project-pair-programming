@@ -3,7 +3,7 @@ import { closePopup } from "./utils.js";
 import { editProfile, addNewCard, changeAvatar } from "./api.js";
 import { userId } from "../pages/index.js";
 
-const placeFormElement = document.querySelector(".popup__container-place");
+const placeFormElement = document.querySelector(".place__container");
 const linkInput = placeFormElement.querySelector(".popup__item_type_link");
 const locationInput = placeFormElement.querySelector(
   ".popup__item_type_location"
