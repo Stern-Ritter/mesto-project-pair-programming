@@ -15,9 +15,7 @@ function createCard(element, user) {
   cardElement.querySelector(".element__text").textContent = element.name;
   elementImage.alt = `Иллюстрация места ${element.name}`;
   numberLike.textContent = element.likes;
-  // userId = element.id;
 
-  console.log(user);
   const deleteButton = cardElement.querySelector(".element__delete");
 
   if (element.id === user) {
@@ -37,12 +35,20 @@ function createCard(element, user) {
       });
   });
 
+  const activeLike = element.like.find((el) => {
+    return el._id === user;
+  });
+
+  if (activeLike) {
+    likeButton.classList.add("element__like_active");
+  }
+
   likeButton.addEventListener("click", function (evt) {
     if (!evt.target.classList.contains("element__like_active")) {
       putLike(element._id)
         .then((data) => {
-          evt.target.classList.add("element__like_active");
           numberLike.textContent = data.likes.length;
+          evt.target.classList.add("element__like_active");
         })
         .catch((err) => {
           console.log(err.message);
