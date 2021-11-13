@@ -27,7 +27,6 @@ import {
 import { getUser, getCards } from "../components/api.js";
 
 export let userId;
-
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
 const avatarEditButton = document.querySelector(".profile__modify-button");
@@ -52,58 +51,16 @@ Promise.all([getUser(), getCards()])
           _id: element._id,
           likes: element.likes.length,
           id: element.owner._id,
+          like: element.likes,
         },
         userId
       );
-
       elementContainer.append(card);
     });
   })
-
   .catch((err) => {
     console.log(err);
   });
-
-// function showUser() {
-//   getUser()
-//     .then((data) => {
-//       // console.log(data);
-//       // console.log(data._id);
-//       profileTitle.textContent = data.name;
-//       profileSubtitle.textContent = data.about;
-//       avatarUser.src = data.avatar;
-//       userId = data._id;
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// }
-// showUser();
-
-// function addCard() {
-//   getCards()
-//     .then((data) => {
-//       data.forEach(function (element) {
-//         const card = createCard(
-//           {
-//             link: element.link,
-//             name: element.name,
-//             _id: element._id,
-//             likes: element.likes.length,
-//             id: element.owner._id,
-//           },
-//           userId
-//         );
-
-//         elementContainer.append(card);
-//       });
-//     })
-
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// }
-// addCard();
 
 profileEditBbutton.addEventListener("click", function () {
   openPopup(popupProfile);

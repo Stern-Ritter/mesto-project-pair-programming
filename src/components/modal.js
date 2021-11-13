@@ -60,10 +60,10 @@ function submitFormPlace(evt) {
           id: data.owner._id,
           _id: data._id,
           likes: data.likes.length,
+          like: data.likes,
         },
         userId
       );
-
       elementContainer.prepend(card);
       closePopup(popupPlace);
     })
