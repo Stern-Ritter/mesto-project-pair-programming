@@ -23,7 +23,6 @@ function editProfile(edit) {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
-    "Content-Type": "application/json",
 
     body: JSON.stringify({
       name: edit.name,
@@ -43,7 +42,6 @@ function addNewCard(card) {
   return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
-    "Content-Type": "application/json",
 
     body: JSON.stringify({
       name: card.name,
@@ -63,7 +61,6 @@ function putLike(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "PUT",
     headers: config.headers,
-    "Content-Type": "application/json",
   }).then(checkResponse);
 }
 
@@ -71,7 +68,6 @@ function deleteLike(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "DELETE",
     headers: config.headers,
-    "Content-Type": "application/json",
   }).then(checkResponse);
 }
 
@@ -79,7 +75,6 @@ function changeAvatar(me) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
     headers: config.headers,
-    "Content-Type": "application/json",
 
     body: JSON.stringify({
       avatar: me.avatar,
