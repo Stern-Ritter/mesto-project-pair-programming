@@ -28,10 +28,7 @@ const profileAvatar = document.querySelector(".profile__avatar");
 function submitFormProfile(evt) {
   evt.preventDefault();
   renderLoading(profileButton, true);
-  editProfile({
-    name: nameInput.value,
-    about: jobInput.value,
-  })
+  editProfile(nameInput.value, jobInput.value)
     .then(() => {
       profileTitle.textContent = `${nameInput.value}`;
       profileSubtitle.textContent = `${jobInput.value}`;
@@ -48,10 +45,7 @@ function submitFormProfile(evt) {
 function submitFormPlace(evt) {
   evt.preventDefault();
   renderLoading(placeButton, true);
-  addNewCard({
-    name: locationInput.value,
-    link: linkInput.value,
-  })
+  addNewCard(locationInput.value, linkInput.value)
     .then((data) => {
       const card = createCard(
         {
@@ -78,9 +72,7 @@ function submitFormPlace(evt) {
 function submitFormAvatar(evt) {
   evt.preventDefault();
   renderLoading(avatarButton, true);
-  changeAvatar({
-    avatar: avatarInput.value,
-  })
+  changeAvatar(avatarInput.value)
     .then(() => {
       profileAvatar.src = avatarInput.value;
       closePopup(popupAvatar);

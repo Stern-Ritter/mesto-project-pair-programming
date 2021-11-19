@@ -24,7 +24,7 @@ import {
   popupAvatar,
 } from "../components/modal.js";
 
-import { getUser, getCards } from "../components/api.js";
+import Api from "../components/Api.js";
 
 export let userId;
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
@@ -35,6 +35,14 @@ const placeButton = document.querySelector(".place__button");
 const avatarButton = document.querySelector(".avatar__button");
 const popups = document.querySelectorAll(".popup");
 const avatarUser = document.querySelector(".profile__avatar");
+
+const api = new Api({
+  baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
+  headers: {
+    authorization: "02385e69-13e7-4a45-9c9c-ba6d7f7e0793",
+    "Content-Type": "application/json",
+  },
+});
 
 Promise.all([getUser(), getCards()])
   .then(([user, cards]) => {
