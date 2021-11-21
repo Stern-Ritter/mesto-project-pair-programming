@@ -1,6 +1,6 @@
 import { createCard } from "./card.js";
 import { closePopup } from "./utils.js";
-import { editProfile, addNewCard, changeAvatar } from "./api.js";
+import { editProfile, addNewCard, changeAvatar } from "./Api.js";
 import { userId } from "../pages/index.js";
 
 const placeFormElement = document.querySelector(".place__container");
