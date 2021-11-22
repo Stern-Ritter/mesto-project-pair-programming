@@ -20,33 +20,46 @@ const api = new Api({
   },
 });
 
-api.getCards()
-.then((res) => {
-  console.log(res);
-const cardSection = new Section(
-  {
-    items: res,
-    renderer: (item) => {
-      console.log(item)
-      const card = new Card(
-        // item = { _id, name, link, likes, owner }
-        item,
-        '.elements-template',
-        {
-        handleCardClick: () => {},
-        handleDeleteBtnClick: () => {},
-        handleLikeBtnClick: () => {},
-        });
-        const cardElement = card.generate();
-        cardSection.addItem(cardElement);
+const cardSection = new Section((item) => {
+  const card = new Card(item, ".elements-template", {
+    handleCardClick: function() {
+      //openPopup(popupImage);
+      // imagePic.src = element.link;
+      // imagePic.alt = `Иллюстрация места ${element.name}`;
+      // imageText.textContent = element.name;
     },
-  },
-  ".elements"
-);
-cardSection.renderItems();
-});
+    handleDeleteBtnClick: function() {
+      api
+        .deleteCard(this._id)
+        .then(() => this._element.remove())
+        .catch((err) => console.log(err));
+    },
+    handleLikeBtnClick: function(evt) {
+      const numberLike = this._element.querySelector(".element__number-like");
 
+      if (!evt.target.classList.contains("element__like_active")) {
+        api.putLike(this._id)
+          .then((data) => {
+            console.log(this._id);
+            numberLike.textContent = data.likes.length;
+            evt.target.classList.add("element__like_active");
+          })
+          .catch((err) => console.log(err.message));
+      } else {
+        api.deleteLike(this._id)
+          .then((data) => {
+            evt.target.classList.remove("element__like_active");
+            numberLike.textContent = data.likes.length;
+          })
+          .catch((err) => console.log(err.message));
+      }
+    },
+  });
+  const cardElement = card.generate();
+  cardSection.addItem(cardElement);
+}, ".elements");
 
+api.getCards().then((items) => cardSection.renderItems(items));
 
 // Исходный код
 // Promise.all([getUser(), getCards()])
