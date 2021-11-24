@@ -17,7 +17,7 @@ export default class Api {
     }).then(this._checkResponse);
   }
 
-  editProfile(name, about) {
+  editUser(name, about) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,

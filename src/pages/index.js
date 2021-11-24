@@ -1,7 +1,7 @@
 import "./index.css";
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
-import Card from "../components/card.js";
+import Card from "../components/Card.js";
 
 // const profileEditBbutton = profile.querySelector(".profile__edit-button");
 // const profileAddBbutton = profile.querySelector(".profile__add-button");
@@ -22,23 +22,24 @@ const api = new Api({
 
 const cardSection = new Section((item) => {
   const card = new Card(item, ".elements-template", {
-    handleCardClick: function() {
+    handleCardClick: function () {
       //openPopup(popupImage);
       // imagePic.src = element.link;
       // imagePic.alt = `Иллюстрация места ${element.name}`;
       // imageText.textContent = element.name;
     },
-    handleDeleteBtnClick: function() {
+    handleDeleteBtnClick: function () {
       api
         .deleteCard(this._id)
         .then(() => this._element.remove())
         .catch((err) => console.log(err));
     },
-    handleLikeBtnClick: function(evt) {
+    handleLikeBtnClick: function (evt) {
       const numberLike = this._element.querySelector(".element__number-like");
 
       if (!evt.target.classList.contains("element__like_active")) {
-        api.putLike(this._id)
+        api
+          .putLike(this._id)
           .then((data) => {
             console.log(this._id);
             numberLike.textContent = data.likes.length;
@@ -46,7 +47,8 @@ const cardSection = new Section((item) => {
           })
           .catch((err) => console.log(err.message));
       } else {
-        api.deleteLike(this._id)
+        api
+          .deleteLike(this._id)
           .then((data) => {
             evt.target.classList.remove("element__like_active");
             numberLike.textContent = data.likes.length;

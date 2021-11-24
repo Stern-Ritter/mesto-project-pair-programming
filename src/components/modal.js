@@ -1,4 +1,4 @@
-import { createCard } from "./card.js";
+import { createCard } from "./Card.js";
 import { closePopup } from "./utils.js";
 import { editProfile, addNewCard, changeAvatar } from "./Api.js";
 import { userId } from "../pages/index.js";
@@ -28,7 +28,7 @@ const profileAvatar = document.querySelector(".profile__avatar");
 function submitFormProfile(evt) {
   evt.preventDefault();
   renderLoading(profileButton, true);
-  editProfile(nameInput.value, jobInput.value)
+  editUser(nameInput.value, jobInput.value)
     .then(() => {
       profileTitle.textContent = `${nameInput.value}`;
       profileSubtitle.textContent = `${jobInput.value}`;
