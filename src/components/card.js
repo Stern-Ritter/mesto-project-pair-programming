@@ -30,7 +30,9 @@ export default class Card {
     const elementImage = this._element.querySelector(".element__image");
 
     deleteButton.addEventListener("click", () => this._handleDeleteBtnClick());
-    likeButton.addEventListener("click", (evt) => this._handleLikeBtnClick(evt));
+    likeButton.addEventListener("click", (evt) =>
+      this._handleLikeBtnClick(evt)
+    );
     elementImage.addEventListener("click", () => this._handleCardClick());
   }
 
@@ -42,7 +44,7 @@ export default class Card {
     const numberLike = this._element.querySelector(".element__number-like");
     const likeButton = this._element.querySelector(".element__like");
     const deleteButton = this._element.querySelector(".element__delete");
-    const userId = sessionStorage.getItem("userId");
+    const userId = localStorage.getItem("userId");
 
     elementText.textContent = this._name;
     elementImage.src = this._link;

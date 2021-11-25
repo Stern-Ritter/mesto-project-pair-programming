@@ -2,6 +2,7 @@ import "./index.css";
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card.js";
+import UserInfo from "../components/UserInfo.js";
 
 // const profileEditBbutton = profile.querySelector(".profile__edit-button");
 // const profileAddBbutton = profile.querySelector(".profile__add-button");
@@ -12,6 +13,10 @@ import Card from "../components/Card.js";
 // const popups = document.querySelectorAll(".popup");
 // const avatarUser = document.querySelector(".profile__avatar");
 
+const profile = document.querySelector(".profile");
+const profileTitle = profile.querySelector(".profile__title");
+const profileSubtitle = profile.querySelector(".profile__subtitle");
+
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
   headers: {
@@ -19,6 +24,24 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
+
+const userInfo = new UserInfo(
+  {
+    nameSelector: ".profile__title",
+    aboutSelector: ".profile__subtitle",
+    avatarSelector: ".profile__avatar",
+  },
+  {
+    getUserHandler: function () {
+      return api.getUser().then((user) => {
+        this._showUserInfo(user);
+        localStorage.setItem("userId", user._id);
+        return new Promise((resolve, reject) => resolve(user));
+      });
+    },
+    setUserHandler: function () {},
+  }
+);
 
 const cardSection = new Section((item) => {
   const card = new Card(item, ".elements-template", {
@@ -41,7 +64,6 @@ const cardSection = new Section((item) => {
         api
           .putLike(this._id)
           .then((data) => {
-            console.log(this._id);
             numberLike.textContent = data.likes.length;
             evt.target.classList.add("element__like_active");
           })
@@ -61,7 +83,9 @@ const cardSection = new Section((item) => {
   cardSection.addItem(cardElement);
 }, ".elements");
 
-api.getCards().then((items) => cardSection.renderItems(items));
+Promise.all([userInfo.getUserInfo(), api.getCards()]).then(([user, items]) => {
+  cardSection.renderItems(items);
+});
 
 // Исходный код
 // Promise.all([getUser(), getCards()])
