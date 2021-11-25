@@ -1,8 +1,9 @@
 import "./index.css";
-import Api from "../components/Api.js";
-import Section from "../components/Section.js";
-import Card from "../components/Card.js";
-import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api";
+import Section from "../components/Section";
+import Card from "../components/Card";
+import UserInfo from "../components/UserInfo";
+import PopupWithImage from "../components/PopupWithImage";
 
 // const profileEditBbutton = profile.querySelector(".profile__edit-button");
 // const profileAddBbutton = profile.querySelector(".profile__add-button");
@@ -43,13 +44,13 @@ const userInfo = new UserInfo(
   }
 );
 
+const popupImage = new PopupWithImage('.image');
+popupImage.setEventListeners();
+
 const cardSection = new Section((item) => {
   const card = new Card(item, ".elements-template", {
     handleCardClick: function () {
-      //openPopup(popupImage);
-      // imagePic.src = element.link;
-      // imagePic.alt = `Иллюстрация места ${element.name}`;
-      // imageText.textContent = element.name;
+      popupImage.open({ name: this._name, link: this._link});
     },
     handleDeleteBtnClick: function () {
       api
