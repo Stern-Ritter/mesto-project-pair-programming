@@ -1,6 +1,6 @@
-import { createCard } from "./card.js";
+import { createCard } from "./Card.js";
 import { closePopup } from "./utils.js";
-import { editProfile, addNewCard, changeAvatar } from "./api.js";
+import { editProfile, addNewCard, changeAvatar } from "./Api.js";
 import { userId } from "../pages/index.js";
 
 const placeFormElement = document.querySelector(".place__container");
@@ -28,10 +28,7 @@ const profileAvatar = document.querySelector(".profile__avatar");
 function submitFormProfile(evt) {
   evt.preventDefault();
   renderLoading(profileButton, true);
-  editProfile({
-    name: nameInput.value,
-    about: jobInput.value,
-  })
+  editUser(nameInput.value, jobInput.value)
     .then(() => {
       profileTitle.textContent = `${nameInput.value}`;
       profileSubtitle.textContent = `${jobInput.value}`;
@@ -48,10 +45,7 @@ function submitFormProfile(evt) {
 function submitFormPlace(evt) {
   evt.preventDefault();
   renderLoading(placeButton, true);
-  addNewCard({
-    name: locationInput.value,
-    link: linkInput.value,
-  })
+  addNewCard(locationInput.value, linkInput.value)
     .then((data) => {
       const card = createCard(
         {
@@ -78,9 +72,7 @@ function submitFormPlace(evt) {
 function submitFormAvatar(evt) {
   evt.preventDefault();
   renderLoading(avatarButton, true);
-  changeAvatar({
-    avatar: avatarInput.value,
-  })
+  changeAvatar(avatarInput.value)
     .then(() => {
       profileAvatar.src = avatarInput.value;
       closePopup(popupAvatar);
