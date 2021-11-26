@@ -20,7 +20,7 @@ export default class UserInfo {
     return this._getUserHandler();
   }
 
-  setUserInfo() {
-    this._setUserHandler();
+  setUserInfo(user) {
+    return this._setUserHandler(user);
   }
 }

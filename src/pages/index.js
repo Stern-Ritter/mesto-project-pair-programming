@@ -4,8 +4,9 @@ import Section from "../components/Section";
 import Card from "../components/Card";
 import UserInfo from "../components/UserInfo";
 import PopupWithImage from "../components/PopupWithImage";
+import PopupWithForm from "../components/PopupWithForm";
 
-// const profileEditBbutton = profile.querySelector(".profile__edit-button");
+const profileEditBbutton = document.querySelector(".profile__edit-button");
 // const profileAddBbutton = profile.querySelector(".profile__add-button");
 // const avatarEditButton = document.querySelector(".profile__modify-button");
 // const profileButton = document.querySelector(".edit-profile__button");
@@ -40,17 +41,22 @@ const userInfo = new UserInfo(
         return new Promise((resolve, reject) => resolve(user));
       });
     },
-    setUserHandler: function () {},
+    setUserHandler: function (userData) {
+      return api.editUser(userData.name, userData.about).then((user) => {
+        this._showUserInfo(user);
+        return new Promise((resolve, reject) => resolve());
+      });
+    },
   }
 );
 
-const popupImage = new PopupWithImage('.image');
+const popupImage = new PopupWithImage(".image");
 popupImage.setEventListeners();
 
 const cardSection = new Section((item) => {
   const card = new Card(item, ".elements-template", {
     handleCardClick: function () {
-      popupImage.open({ name: this._name, link: this._link});
+      popupImage.open({ name: this._name, link: this._link });
     },
     handleDeleteBtnClick: function () {
       api
@@ -86,6 +92,28 @@ const cardSection = new Section((item) => {
 
 Promise.all([userInfo.getUserInfo(), api.getCards()]).then(([user, items]) => {
   cardSection.renderItems(items);
+});
+
+const popupEditProfile = new PopupWithForm(".edit-profile", function () {
+  const userData = this._getInputValues();
+  userInfo
+    .setUserInfo(userData)
+    .then(() => {
+      popupEditProfile.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      // profileButton.textContent = "Сохранить";
+    });
+});
+popupEditProfile.setEventListeners();
+profileEditBbutton.addEventListener("click", () => {
+  userInfo.getUserInfo().then((user) => {
+    popupEditProfile._setInputValues({ name: user.name, about: user.about });
+    popupEditProfile.open();
+  });
 });
 
 // Исходный код
