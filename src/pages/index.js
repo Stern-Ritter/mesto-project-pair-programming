@@ -34,17 +34,10 @@ const userInfo = new UserInfo(
     avatarSelector: ".profile__avatar",
   },
   {
-    getUserHandler: function () {
-      return api.getUser().then((user) => {
-        this._showUserInfo(user);
-        localStorage.setItem("userId", user._id);
-        return new Promise((resolve, reject) => resolve(user));
-      });
-    },
     setUserHandler: function (userData) {
       return api.editUser(userData.name, userData.about).then((user) => {
-        this._showUserInfo(user);
-        return new Promise((resolve, reject) => resolve());
+        this.showUserInfo(user);
+        return new Promise((resolve) => resolve());
       });
     },
   }
@@ -90,7 +83,9 @@ const cardSection = new Section((item) => {
   cardSection.addItem(cardElement);
 }, ".elements");
 
-Promise.all([userInfo.getUserInfo(), api.getCards()]).then(([user, items]) => {
+Promise.all([api.getUser(), api.getCards()]).then(([user, items]) => {
+  localStorage.setItem("userId", user._id);
+  userInfo.showUserInfo(user);
   cardSection.renderItems(items);
 });
 
@@ -110,10 +105,9 @@ const popupEditProfile = new PopupWithForm(".edit-profile", function () {
 });
 popupEditProfile.setEventListeners();
 profileEditBbutton.addEventListener("click", () => {
-  userInfo.getUserInfo().then((user) => {
-    popupEditProfile._setInputValues({ name: user.name, about: user.about });
-    popupEditProfile.open();
-  });
+  const user = userInfo.getUserInfo();
+  popupEditProfile._setInputValues(user);
+  popupEditProfile.open();
 });
 
 // Исходный код
