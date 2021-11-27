@@ -6,17 +6,18 @@ import UserInfo from "../components/UserInfo";
 import PopupWithImage from "../components/PopupWithImage";
 import PopupWithForm from "../components/PopupWithForm";
 
-const profileEditBbutton = document.querySelector(".profile__edit-button");
-// const profileAddBbutton = profile.querySelector(".profile__add-button");
-const avatarEditButton = document.querySelector(".profile__modify-button");
+const profile = document.querySelector(".profile");
+const profileEditBbutton = profile.querySelector(".profile__edit-button");
+const avatarEditButton = profile.querySelector(".profile__modify-button");
+const avatarUser = profile.querySelector(".profile__avatar");
+const profileAddBbutton = profile.querySelector(".profile__add-button");
+
 // const profileButton = document.querySelector(".edit-profile__button");
-// const placeButton = document.querySelector(".place__button");
+//const placeButton = document.querySelector(".place__button");
 // const avatarButton = document.querySelector(".avatar__button");
 // const popups = document.querySelectorAll(".popup");
-const avatarUser = document.querySelector(".profile__avatar");
-const profile = document.querySelector(".profile");
-const profileTitle = profile.querySelector(".profile__title");
-const profileSubtitle = profile.querySelector(".profile__subtitle");
+// const profileTitle = profile.querySelector(".profile__title");
+// const profileSubtitle = profile.querySelector(".profile__subtitle");
 
 const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-3",
@@ -98,7 +99,12 @@ avatarEditButton.addEventListener("click", () => {
   popupEditAvatar.open();
 });
 
+profileAddBbutton.addEventListener("click", () => {
+  popupAddPlace.open();
+});
+
 const popupEditProfile = new PopupWithForm(".edit-profile", function () {
+  const oldText = popupEditProfile.switchSubmitButtonText('Сохранение...');
   const { name, about } = this._getInputValues();
   userInfo
     .setUserInfo(name, about)
@@ -109,12 +115,13 @@ const popupEditProfile = new PopupWithForm(".edit-profile", function () {
       console.log(err);
     })
     .finally(() => {
-      // profileButton.textContent = "Сохранить";
+      popupEditProfile.switchSubmitButtonText(oldText);
     });
 });
 popupEditProfile.setEventListeners();
 
 const popupEditAvatar = new PopupWithForm(".avatar", function () {
+  const oldText = popupEditAvatar.switchSubmitButtonText('Сохранение...');
   const { avatar } = this._getInputValues();
   api
     .changeAvatar(avatar)
@@ -126,11 +133,28 @@ const popupEditAvatar = new PopupWithForm(".avatar", function () {
       console.log(err);
     })
     .finally(() => {
-      // profileButton.textContent = "Сохранить";
+      popupEditAvatar.switchSubmitButtonText(oldText);
     });
 });
-
 popupEditAvatar.setEventListeners();
+
+const popupAddPlace = new PopupWithForm(".place", function() {
+  const oldText = popupAddPlace.switchSubmitButtonText('Сохранение...');
+  const { name, link} = this._getInputValues();
+  api.addNewCard(name, link)
+  .then((card) => {
+    console.log(card);
+    cardSection.renderer(card);
+    popupAddPlace.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    popupAddPlace.switchSubmitButtonText(oldText);
+  });
+});
+popupAddPlace.setEventListeners();
 
 // Исходный код
 // Promise.all([getUser(), getCards()])

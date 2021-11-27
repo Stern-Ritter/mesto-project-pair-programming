@@ -51,7 +51,9 @@ export default class Card {
     elementImage.alt = `Иллюстрация места ${this._name}`;
     numberLike.textContent = this._likes.length;
 
-    if (userId === this._owner) {
+    console.log(userId, this._owner._id, userId === this._owner._id);
+
+    if (userId === this._owner._id) {
       deleteButton.classList.add("element__delete_visible");
     } else {
       deleteButton.classList.remove("element__delete_visible");
