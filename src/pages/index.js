@@ -8,13 +8,12 @@ import PopupWithForm from "../components/PopupWithForm";
 
 const profileEditBbutton = document.querySelector(".profile__edit-button");
 // const profileAddBbutton = profile.querySelector(".profile__add-button");
-// const avatarEditButton = document.querySelector(".profile__modify-button");
+const avatarEditButton = document.querySelector(".profile__modify-button");
 // const profileButton = document.querySelector(".edit-profile__button");
 // const placeButton = document.querySelector(".place__button");
 // const avatarButton = document.querySelector(".avatar__button");
 // const popups = document.querySelectorAll(".popup");
-// const avatarUser = document.querySelector(".profile__avatar");
-
+const avatarUser = document.querySelector(".profile__avatar");
 const profile = document.querySelector(".profile");
 const profileTitle = profile.querySelector(".profile__title");
 const profileSubtitle = profile.querySelector(".profile__subtitle");
@@ -34,8 +33,8 @@ const userInfo = new UserInfo(
     avatarSelector: ".profile__avatar",
   },
   {
-    setUserHandler: function (userData) {
-      return api.editUser(userData.name, userData.about).then((user) => {
+    setUserHandler: function (name, about) {
+      return api.editUser(name, about).then((user) => {
         this.showUserInfo(user);
         return new Promise((resolve) => resolve());
       });
@@ -89,10 +88,20 @@ Promise.all([api.getUser(), api.getCards()]).then(([user, items]) => {
   cardSection.renderItems(items);
 });
 
+profileEditBbutton.addEventListener("click", () => {
+  const user = userInfo.getUserInfo();
+  popupEditProfile._setInputValues(user);
+  popupEditProfile.open();
+});
+
+avatarEditButton.addEventListener("click", () => {
+  popupEditAvatar.open();
+});
+
 const popupEditProfile = new PopupWithForm(".edit-profile", function () {
-  const userData = this._getInputValues();
+  const { name, about } = this._getInputValues();
   userInfo
-    .setUserInfo(userData)
+    .setUserInfo(name, about)
     .then(() => {
       popupEditProfile.close();
     })
@@ -104,11 +113,24 @@ const popupEditProfile = new PopupWithForm(".edit-profile", function () {
     });
 });
 popupEditProfile.setEventListeners();
-profileEditBbutton.addEventListener("click", () => {
-  const user = userInfo.getUserInfo();
-  popupEditProfile._setInputValues(user);
-  popupEditProfile.open();
+
+const popupEditAvatar = new PopupWithForm(".avatar", function () {
+  const { avatar } = this._getInputValues();
+  api
+    .changeAvatar(avatar)
+    .then((res) => {
+      avatarUser.src = res.avatar;
+      popupEditAvatar.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      // profileButton.textContent = "Сохранить";
+    });
 });
+
+popupEditAvatar.setEventListeners();
 
 // Исходный код
 // Promise.all([getUser(), getCards()])

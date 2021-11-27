@@ -18,10 +18,10 @@ export default class UserInfo {
   getUserInfo() {
     const name = this._nameElement.textContent;
     const about = this._aboutElement.textContent;
-    return {name, about};
+    return { name, about };
   }
 
-  setUserInfo(user) {
-    return this._setUserHandler(user);
+  setUserInfo(name, about) {
+    return this._setUserHandler(name, about);
   }
 }
