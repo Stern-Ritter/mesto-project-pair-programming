@@ -104,7 +104,7 @@ profileAddBbutton.addEventListener("click", () => {
 });
 
 const popupEditProfile = new PopupWithForm(".edit-profile", function () {
-  const oldText = popupEditProfile.switchSubmitButtonText('Сохранение...');
+  const oldText = popupEditProfile.switchSubmitButtonText("Сохранение...");
   const { name, about } = this._getInputValues();
   userInfo
     .setUserInfo(name, about)
@@ -121,7 +121,7 @@ const popupEditProfile = new PopupWithForm(".edit-profile", function () {
 popupEditProfile.setEventListeners();
 
 const popupEditAvatar = new PopupWithForm(".avatar", function () {
-  const oldText = popupEditAvatar.switchSubmitButtonText('Сохранение...');
+  const oldText = popupEditAvatar.switchSubmitButtonText("Сохранение...");
   const { avatar } = this._getInputValues();
   api
     .changeAvatar(avatar)
@@ -138,21 +138,22 @@ const popupEditAvatar = new PopupWithForm(".avatar", function () {
 });
 popupEditAvatar.setEventListeners();
 
-const popupAddPlace = new PopupWithForm(".place", function() {
-  const oldText = popupAddPlace.switchSubmitButtonText('Сохранение...');
-  const { name, link} = this._getInputValues();
-  api.addNewCard(name, link)
-  .then((card) => {
-    console.log(card);
-    cardSection.renderer(card);
-    popupAddPlace.close();
-  })
-  .catch((err) => {
-    console.log(err);
-  })
-  .finally(() => {
-    popupAddPlace.switchSubmitButtonText(oldText);
-  });
+const popupAddPlace = new PopupWithForm(".place", function () {
+  const oldText = popupAddPlace.switchSubmitButtonText("Сохранение...");
+  const { name, link } = this._getInputValues();
+  api
+    .addNewCard(name, link)
+    .then((card) => {
+      console.log(card);
+      cardSection.renderer(card);
+      popupAddPlace.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupAddPlace.switchSubmitButtonText(oldText);
+    });
 });
 popupAddPlace.setEventListeners();
 
