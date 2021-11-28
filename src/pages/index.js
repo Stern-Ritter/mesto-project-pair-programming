@@ -5,6 +5,8 @@ import Card from "../components/Card";
 import UserInfo from "../components/UserInfo";
 import PopupWithImage from "../components/PopupWithImage";
 import PopupWithForm from "../components/PopupWithForm";
+import FormValidator from "../components/FormValidator";
+import { config } from '../components/constants';
 
 const profile = document.querySelector(".profile");
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
@@ -89,18 +91,28 @@ Promise.all([api.getUser(), api.getCards()]).then(([user, items]) => {
   cardSection.renderItems(items);
 });
 
+const editProfileForm = new FormValidator(config, '.edit-profile__container');
+const editAvatarForm = new FormValidator(config, '.avatar__container');
+const addPlaceForm = new FormValidator(config, '.place__container');
+editProfileForm.enableValidation();
+editAvatarForm.enableValidation();
+addPlaceForm.enableValidation();
+
 profileEditBbutton.addEventListener("click", () => {
   const user = userInfo.getUserInfo();
   popupEditProfile._setInputValues(user);
+  editProfileForm.clearInputErrors();
   popupEditProfile.open();
 });
 
 avatarEditButton.addEventListener("click", () => {
   popupEditAvatar.open();
+  editAvatarForm.clearInputErrors();
 });
 
 profileAddBbutton.addEventListener("click", () => {
   popupAddPlace.open();
+  addPlaceForm.clearInputErrors();
 });
 
 const popupEditProfile = new PopupWithForm(".edit-profile", function () {
