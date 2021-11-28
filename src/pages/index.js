@@ -1,3 +1,4 @@
+//Комментрий
 import "./index.css";
 import Api from "../components/Api";
 import Section from "../components/Section";
