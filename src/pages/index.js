@@ -1,4 +1,3 @@
-//Комментрий
 import "./index.css";
 import Api from "../components/Api";
 import Section from "../components/Section";
@@ -119,7 +118,6 @@ const popupAddPlace = new PopupWithForm(".place", function () {
   api
     .addNewCard(name, link)
     .then((card) => {
-      console.log(card);
       cardSection.renderer(card);
       popupAddPlace.close();
     })
