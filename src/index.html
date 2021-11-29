@@ -19,15 +19,20 @@
 
     <main class="main-content">
       <div class="profile">
-        <div class="profile__modify">
-          <img class="profile__avatar" src="" alt="Аватар пользователя." />
-          <button class="profile__modify-button" type="button"></button>
+        <div class="profile__group">
+          <div class="profile__modify">
+            <img class="profile__avatar" src="" alt="Аватар пользователя." />
+            <button class="profile__modify-button" type="button"></button>
+          </div>
+          <div class="profile__info">
+            <div class="profile__info-holder">
+              <h1 class="profile__title"></h1>
+              <button class="profile__edit-button" type="button"></button>
+            </div>
+
+            <p class="profile__subtitle"></p>
+          </div>
         </div>
-        <div class="profile__info">
-          <h1 class="profile__title"></h1>
-          <p class="profile__subtitle"></p>
-        </div>
-        <button class="profile__edit-button" type="button"></button>
         <button class="profile__add-button" type="button"></button>
       </div>
 
@@ -105,6 +110,7 @@
         <h2 class="popup__heading">Новое место</h2>
         <fieldset class="popup__input-container">
           <input
+            name="name"
             type="text"
             placeholder="Название"
             class="popup__item popup__item_type_location"
@@ -115,6 +121,7 @@
           />
           <span class="popup__input-error location-input-error"></span>
           <input
+            name="link"
             type="url"
             placeholder="Ссылка на картинку"
             class="popup__item popup__item_type_link"
@@ -153,6 +160,7 @@
             class="popup__item popup__item_type_avatar"
             required
             id="avatar-input"
+            name="avatar"
           />
           <span class="popup__input-error avatar-input-error"></span>
         </fieldset>

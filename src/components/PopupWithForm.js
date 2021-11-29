@@ -24,6 +24,13 @@ export default class PopupWithForm extends Popup {
     });
   }
 
+  switchSubmitButtonText(text) {
+    const submitButton = this._element.querySelector('.popup__button');
+    const oldText = submitButton.textContent;
+    submitButton.textContent = text;
+    return oldText;
+  }
+
   close() {
     this._element.querySelector(".popup__container").reset();
     super.close();
