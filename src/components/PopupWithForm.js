@@ -4,10 +4,13 @@ export default class PopupWithForm extends Popup {
   constructor(selector, formSubmitHandler) {
     super(selector);
     this._formSubmitHandler = formSubmitHandler;
+    this._inputList = this._element.querySelectorAll(".popup__item");
+    this._submitButton = this._element.querySelector('.popup__button');
+    this._initButtonText = this._submitButton.textContent;
+    this._form = this._element.querySelector(".popup__container");
   }
 
-  _getInputValues() {
-    this._inputList = this._element.querySelectorAll(".popup__item");
+  getInputValues() {
     this._formValues = {};
     this._inputList.forEach(
       (input) => (this._formValues[input.name] = input.value)
@@ -16,23 +19,18 @@ export default class PopupWithForm extends Popup {
   }
 
   _setInputValues(data) {
-    Object.entries(data).forEach(([inputName, inputValue]) => {
-      const input = this._element.querySelector(
-        `.popup__item[name="${inputName}"]`
-      );
-      input.value = inputValue;
-    });
+    this._inputList.forEach(input => {
+      input.value = data[input.name] ? data[input.name] : '';
+    })
   }
 
   switchSubmitButtonText(text) {
-    const submitButton = this._element.querySelector('.popup__button');
-    const oldText = submitButton.textContent;
-    submitButton.textContent = text;
-    return oldText;
+    this._submitButton.textContent = text;
+    return this._initButtonText;
   }
 
   close() {
-    this._element.querySelector(".popup__container").reset();
+    this._form.reset();
     super.close();
   }
 

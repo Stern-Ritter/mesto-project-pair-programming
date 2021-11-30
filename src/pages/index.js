@@ -12,7 +12,6 @@ import { config } from "../components/constants";
 const profile = document.querySelector(".profile");
 const profileEditBbutton = profile.querySelector(".profile__edit-button");
 const avatarEditButton = profile.querySelector(".profile__modify-button");
-const avatarUser = profile.querySelector(".profile__avatar");
 const profileAddBbutton = profile.querySelector(".profile__add-button");
 
 // Создание объектов классов
@@ -32,56 +31,47 @@ const userInfo = new UserInfo(
   },
   {
     setUserHandler: function (name, about) {
-      return api.editUser(name, about).then((user) => {
-        this.showUserInfo(user);
-        return new Promise((resolve) => resolve());
-      });
+      return api.editUser(name, about);
     },
   }
 );
 
 const cardSection = new Section((item) => {
+  const userId = userInfo.getUserId();
   const card = new Card(item, ".elements-template", {
-    handleCardClick: function () {
-      popupImage.open({ name: this._name, link: this._link });
-    },
+    handleCardClick: function () { popupImage.open(item) },
     handleDeleteBtnClick: function () {
       api
-        .deleteCard(this._id)
-        .then(() => this._element.remove())
+        .deleteCard(card.getId())
+        .then(() => card.delete())
         .catch((err) => console.log(err));
     },
-    handleLikeBtnClick: function (evt) {
-      const numberLike = this._element.querySelector(".element__number-like");
-
-      if (!evt.target.classList.contains("element__like_active")) {
+    handleLikeBtnClick: function () {
+      if (!card.isLiked()) {
         api
-          .putLike(this._id)
+          .putLike(card.getId())
           .then((data) => {
-            numberLike.textContent = data.likes.length;
-            evt.target.classList.add("element__like_active");
+            card.updateLikes(data, true);
           })
           .catch((err) => console.log(err.message));
       } else {
         api
-          .deleteLike(this._id)
+          .deleteLike(card.getId())
           .then((data) => {
-            evt.target.classList.remove("element__like_active");
-            numberLike.textContent = data.likes.length;
+            card.updateLikes(data);
           })
           .catch((err) => console.log(err.message));
       }
     },
   });
-  const cardElement = card.generate();
-  cardSection.addItem(cardElement);
+  return card.generate();
 }, ".elements");
 
 const popupImage = new PopupWithImage(".image");
 
 const popupEditProfile = new PopupWithForm(".edit-profile", function () {
   const oldText = popupEditProfile.switchSubmitButtonText("Сохранение...");
-  const { name, about } = this._getInputValues();
+  const { name, about } = this.getInputValues();
   userInfo
     .setUserInfo(name, about)
     .then(() => {
@@ -97,11 +87,11 @@ const popupEditProfile = new PopupWithForm(".edit-profile", function () {
 
 const popupEditAvatar = new PopupWithForm(".avatar", function () {
   const oldText = popupEditAvatar.switchSubmitButtonText("Сохранение...");
-  const { avatar } = this._getInputValues();
+  const { avatar } = this.getInputValues();
   api
     .changeAvatar(avatar)
-    .then((res) => {
-      avatarUser.src = res.avatar;
+    .then((data) => {
+      userInfo.setUserAvatar(data);
       popupEditAvatar.close();
     })
     .catch((err) => {
@@ -114,11 +104,11 @@ const popupEditAvatar = new PopupWithForm(".avatar", function () {
 
 const popupAddPlace = new PopupWithForm(".place", function () {
   const oldText = popupAddPlace.switchSubmitButtonText("Сохранение...");
-  const { name, link } = this._getInputValues();
+  const { name, link } = this.getInputValues();
   api
     .addNewCard(name, link)
     .then((card) => {
-      cardSection.renderer(card);
+      cardSection.addItem(card);
       popupAddPlace.close();
     })
     .catch((err) => {
@@ -156,7 +146,7 @@ profileAddBbutton.addEventListener("click", () => {
 
 // Начальная инициализация
 Promise.all([api.getUser(), api.getCards()]).then(([user, items]) => {
-  localStorage.setItem("userId", user._id);
+  userInfo.setUserId(user._id);
   userInfo.showUserInfo(user);
   cardSection.renderItems(items);
 });
