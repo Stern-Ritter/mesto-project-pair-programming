@@ -2,13 +2,15 @@ export default class Card {
   constructor(
     { _id, name, link, likes, owner },
     selector,
-    { handleCardClick, handleDeleteBtnClick, handleLikeBtnClick }
+    { handleCardClick, handleDeleteBtnClick, handleLikeBtnClick },
+    userId
   ) {
     this._id = _id;
     this._name = name;
     this._link = link;
     this._likes = likes;
     this._owner = owner;
+    this._userId = userId;
     this._selector = selector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteBtnClick = handleDeleteBtnClick;
@@ -62,20 +64,18 @@ export default class Card {
   }
 
   generate() {
-    const userId = localStorage.getItem("userId");
-
     this._elementText.textContent = this._name;
     this._elementImage.src = this._link;
     this._elementImage.alt = `Иллюстрация места ${this._name}`;
     this._numberLike.textContent = this._likes.length;
 
-    if (userId === this._owner._id) {
+    if (this._userId === this._owner._id) {
       this._deleteButton.classList.add("element__delete_visible");
     } else {
       this._deleteButton.classList.remove("element__delete_visible");
     }
 
-    if (this._likes.map((like) => like._id).includes(userId)) {
+    if (this._likes.map((like) => like._id).includes(this._userId)) {
       this._likeButton.classList.add("element__like_active");
     }
 
