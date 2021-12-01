@@ -22,6 +22,21 @@ export default class UserInfo {
   }
 
   setUserInfo(name, about) {
-    return this._setUserHandler(name, about);
+    return this._setUserHandler(name, about).then((user) => {
+      this.showUserInfo(user);
+      return new Promise((resolve) => resolve());
+    });
+  }
+
+  setUserAvatar(data) {
+    this._avatarElement.src = data.avatar;
+  }
+
+  getUserId() {
+    return this._id;
+  }
+
+  setUserId(id) {
+    this._id = id;
   }
 }
