@@ -6,7 +6,7 @@ import UserInfo from "../components/UserInfo";
 import PopupWithImage from "../components/PopupWithImage";
 import PopupWithForm from "../components/PopupWithForm";
 import FormValidator from "../components/FormValidator";
-import { config } from "../components/constants";
+import { config } from "../utils/constants";
 
 // DOM-элементы
 const profile = document.querySelector(".profile");
@@ -78,7 +78,7 @@ const popupImage = new PopupWithImage(".image");
 
 const popupEditProfile = new PopupWithForm(".edit-profile", function () {
   const oldText = popupEditProfile.switchSubmitButtonText("Сохранение...");
-  const { name, about } = this.getInputValues();
+  const { name, about } = popupEditProfile.getInputValues();
   userInfo
     .setUserInfo(name, about)
     .then(() => {
@@ -94,7 +94,7 @@ const popupEditProfile = new PopupWithForm(".edit-profile", function () {
 
 const popupEditAvatar = new PopupWithForm(".avatar", function () {
   const oldText = popupEditAvatar.switchSubmitButtonText("Сохранение...");
-  const { avatar } = this.getInputValues();
+  const { avatar } = popupEditAvatar.getInputValues();
   api
     .changeAvatar(avatar)
     .then((data) => {
@@ -111,7 +111,7 @@ const popupEditAvatar = new PopupWithForm(".avatar", function () {
 
 const popupAddPlace = new PopupWithForm(".place", function () {
   const oldText = popupAddPlace.switchSubmitButtonText("Сохранение...");
-  const { name, link } = this.getInputValues();
+  const { name, link } = popupAddPlace.getInputValues();
   api
     .addNewCard(name, link)
     .then((card) => {
